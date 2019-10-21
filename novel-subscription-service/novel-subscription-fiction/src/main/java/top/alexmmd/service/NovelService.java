@@ -1,6 +1,5 @@
 package top.alexmmd.service;
 
-import org.springframework.stereotype.Service;
 import top.alexmmd.domain.NovelInfo;
 
 /**

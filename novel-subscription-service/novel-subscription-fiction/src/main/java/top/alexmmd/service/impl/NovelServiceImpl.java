@@ -10,6 +10,11 @@ import top.alexmmd.service.NovelService;
 @Service
 public class NovelServiceImpl implements NovelService {
 
+    /**
+     * 根据 ID 查找对应的小说信息
+     * @param id
+     * @return
+     */
     @Override
     public NovelInfo findNovelById(Long id) {
         return null;
