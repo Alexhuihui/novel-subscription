@@ -41,6 +41,8 @@ public class FictionServiceImpl implements FictionService {
         //把html交给parse去解析
         Fiction fiction = FictionParse.parseFiction(html);
 
+        fiction.setId(id);
+
         return fiction;
     }
 

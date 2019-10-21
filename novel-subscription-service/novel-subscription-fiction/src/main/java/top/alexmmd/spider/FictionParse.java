@@ -10,6 +10,8 @@ import top.alexmmd.domain.Fiction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 解析HTML页面
@@ -103,6 +105,12 @@ public class FictionParse {
         fiction.setUpdateTime(updateTime);
         fiction.setLatestChapter(latestChapter);
 
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(novelUrl);
+
+        Long id = Long.valueOf(m.replaceAll("").trim());
+        fiction.setId(id);
 
         return fiction;
     }

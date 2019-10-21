@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class Fiction {
 
+    private Long id;
+
     private String novelName;
 
     private String novelDesc;
