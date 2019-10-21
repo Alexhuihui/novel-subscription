@@ -10,6 +10,8 @@ import top.alexmmd.service.FictionService;
 import java.util.List;
 
 /**
+ * 根据笔趣阁查询小说信息
+ *
  * @author 汪永晖
  */
 @RestController
