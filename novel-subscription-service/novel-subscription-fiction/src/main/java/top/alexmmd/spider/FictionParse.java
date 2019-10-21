@@ -71,6 +71,13 @@ public class FictionParse {
         fiction.setUpdateTime(updateTime);
         fiction.setLatestChapter(latestChapter);
 
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(novelUrl);
+
+        Long id = Long.valueOf(m.replaceAll("").trim());
+        fiction.setId(id);
+
         return fiction;
     }
 
@@ -104,13 +111,6 @@ public class FictionParse {
         fiction.setNovelUrl(novelUrl);
         fiction.setUpdateTime(updateTime);
         fiction.setLatestChapter(latestChapter);
-
-        String regEx = "[^0-9]";
-        Pattern p = Pattern.compile(regEx);
-        Matcher m = p.matcher(novelUrl);
-
-        Long id = Long.valueOf(m.replaceAll("").trim());
-        fiction.setId(id);
 
         return fiction;
     }
