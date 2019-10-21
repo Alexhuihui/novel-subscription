@@ -10,4 +10,6 @@ public interface NovelService {
     NovelInfo findNovelById(Long id);
 
     NovelInfo addNovel(NovelInfo novelInfo);
+
+    NovelInfo deleteNovelById(Long id);
 }

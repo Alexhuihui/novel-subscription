@@ -45,4 +45,16 @@ public class NovelServiceImpl implements NovelService {
 
         return novelInfoRepository.save(novelInfo);
     }
+
+    /**
+     * 根据小说 id 删除小说
+     *
+     * @param id novel_id
+     * @return 空的 novel_info
+     */
+    @Override
+    public NovelInfo deleteNovelById(Long id) {
+        novelInfoRepository.deleteById(id);
+        return new NovelInfo();
+    }
 }
