@@ -2,19 +2,15 @@ server:
   port: 9000
 spring:
   application:
-    name: homepage-zuul
+    name: novel-subscription-zuul
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8000/eureka/
 zuul:
-  prefix: /
+  prefix: /api
   routes:
-    course:
-      path: /homepage-course/**
-      serviceId: eureka-client-homepage-course
-      strip-prefix: false
-    user:
-      path: /homepage-user/**
-      serviceId: eureka-client-homepage-user
+    novel-subscription-fiction:
+      path: /novel-subscription-fiction/**
+      serviceId: novel-subscription-fiction
       strip-prefix: false
