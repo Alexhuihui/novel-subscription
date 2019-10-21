@@ -48,10 +48,6 @@ public class NovelInfo {
     @Column(name = "novel_intro", nullable = false)
     private String novelIntro;
 
-    // 小说最新章节
-    @Column(name = "latest_chapter", nullable = false)
-    private String latestChapter;
-
     // 小说链接
     @Column(name = "novel_url", nullable = false)
     private String novelUrl;

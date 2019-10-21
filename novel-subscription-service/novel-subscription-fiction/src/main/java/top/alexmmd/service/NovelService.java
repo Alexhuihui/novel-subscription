@@ -8,4 +8,6 @@ import top.alexmmd.domain.NovelInfo;
 public interface NovelService {
 
     NovelInfo findNovelById(Long id);
+
+    NovelInfo addNovel(NovelInfo novelInfo);
 }

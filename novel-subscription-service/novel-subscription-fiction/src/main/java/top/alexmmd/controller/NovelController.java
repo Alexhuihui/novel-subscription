@@ -2,10 +2,7 @@ package top.alexmmd.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.alexmmd.domain.NovelInfo;
 import top.alexmmd.service.NovelService;
 
@@ -29,11 +26,18 @@ public class NovelController {
      * @return 小说详细信息
      */
     @GetMapping("/{id}")
-    public NovelInfo findFiction(@PathVariable Long id) {
+    public NovelInfo findNovel(@PathVariable Long id) {
         log.info("<novel-subscription-fiction>: get novel info -> {}", id);
 
         NovelInfo novelInfo = novelService.findNovelById(id);
 
         return novelInfo;
+    }
+
+    @PostMapping
+    public NovelInfo addNovel(@RequestBody NovelInfo novelInfo) {
+        log.info("<novel-subscription-fiction>: add novel info -> {}", novelInfo.getNovelName());
+
+        return novelService.addNovel(novelInfo);
     }
 }
