@@ -1,0 +1,109 @@
+package top.alexmmd.spider;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import top.alexmmd.domain.Fiction;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 解析HTML页面
+ * 把结果包装成Fiction和FictionList返回给Service
+ *
+ * @author 汪永晖
+ */
+public class FictionParse {
+
+    private static Logger logger = LoggerFactory.getLogger(FictionParse.class);
+
+    /**
+     * 解析笔趣阁搜索结果页面
+     *
+     * @param html service层传来的html页面
+     * @return Fiction的集合
+     */
+    public static List<Fiction> parseSearch(String html) {
+
+        List<Fiction> fictions = new ArrayList<>();
+
+        Document document = Jsoup.parse(html);
+
+        Elements elements = document.select("div[class=result-item result-game-item]");
+
+        for (Element element : elements) {
+            fictions.add(fillFiction(element));
+        }
+
+        return fictions;
+    }
+
+    public static Fiction fillFiction(Element element) {
+        Fiction fiction = new Fiction();
+
+        String imgUrl = element.select("img[class=result-game-item-pic-link-img]").first().attr("src");
+        String novelName = element.select("a[class=result-game-item-title-link]").first().attr("title");
+        String novelUrl = element.select("a[class=result-game-item-title-link]").first().attr("href");
+        String novelDesc = element.select("p[class=result-game-item-desc]").first().text();
+
+        Elements elements = element.select("p[class=result-game-item-info-tag]");
+        Element authorElement = elements.first();
+        String author = authorElement.select("span").last().text();
+
+        String category = elements.get(1).select("span").last().text();
+
+        String updateTime = elements.get(2).select("span").last().text();
+
+        String latestChapter = elements.get(3).select("a").first().text();
+
+        fiction.setImgUrl(imgUrl);
+        fiction.setNovelName(novelName);
+        fiction.setNovelUrl(novelUrl);
+        fiction.setNovelDesc(novelDesc);
+        fiction.setAuthor(author);
+        fiction.setCategory(category);
+        fiction.setUpdateTime(updateTime);
+        fiction.setLatestChapter(latestChapter);
+
+        return fiction;
+    }
+
+    /**
+     * 解析笔趣阁图书详情页面
+     *
+     * @param html service层传来的html页面
+     * @return Fiction
+     */
+    public static Fiction parseFiction(String html) {
+
+        Fiction fiction = new Fiction();
+
+        Document document = Jsoup.parse(html);
+
+        String author = document.select("meta[property=og:novel:author]").first().attr("content");
+        String novelDesc = document.select("meta[property=og:description]").first().attr("content");
+        String imgUrl = document.select("meta[property=og:image]").first().attr("content");
+        String category = document.select("meta[property=og:novel:category]").first().attr("content");
+        String novelName = document.select("meta[property=og:novel:book_name]").first().attr("content");
+        String novelUrl = document.select("meta[property=og:novel:read_url]").first().attr("content");
+        String updateTime = document.select("meta[property=og:novel:update_time]").first().attr("content");
+        String latestChapter = document.select("meta[property=og:novel:latest_chapter_name]").first().attr("content");
+
+
+        fiction.setAuthor(author);
+        fiction.setNovelDesc(novelDesc);
+        fiction.setImgUrl(imgUrl);
+        fiction.setCategory(category);
+        fiction.setNovelName(novelName);
+        fiction.setNovelUrl(novelUrl);
+        fiction.setUpdateTime(updateTime);
+        fiction.setLatestChapter(latestChapter);
+
+
+        return fiction;
+    }
+}
