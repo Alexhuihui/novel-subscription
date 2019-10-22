@@ -1,4 +1,5 @@
 mvn*
+application-*
 application-prod.yml
 target/
 !.mvn/wrapper/maven-wrapper.jar

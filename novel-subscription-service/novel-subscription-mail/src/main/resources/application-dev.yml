@@ -12,7 +12,7 @@ spring:
   mail:
     host: smtp.163.com
     username: 17770848782
-    password: QWErty123
+    password: QWErty
 mail:
   fromMail:
     addr: 17770848782@163.com
