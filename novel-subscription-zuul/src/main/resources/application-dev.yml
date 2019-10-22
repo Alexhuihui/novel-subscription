@@ -14,3 +14,11 @@ zuul:
       path: /novel-subscription-fiction/**
       serviceId: novel-subscription-fiction
       strip-prefix: false
+  host:
+      connect-timeout-millis: 10000
+      socket-timeout-millis: 60000
+
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
