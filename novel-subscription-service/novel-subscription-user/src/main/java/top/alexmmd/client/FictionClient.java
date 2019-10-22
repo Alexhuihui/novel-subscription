@@ -24,7 +24,7 @@ public interface FictionClient {
      */
     @RequestMapping(value = "/novel-subscription-fiction/fiction/{id}",
             method = RequestMethod.GET)
-    Fiction findFiction(@PathVariable Long id);
+    Fiction findFiction(@PathVariable("id") Long id);
 
     /**
      * 从笔趣阁根据关键字来查询图书详情
@@ -34,7 +34,7 @@ public interface FictionClient {
      */
     @RequestMapping(value = "/novel-subscription-fiction/fiction/search",
             method = RequestMethod.GET)
-    List<Fiction> getFictions(@RequestParam String keyword);
+    List<Fiction> getFictions(@RequestParam("keyword") String keyword);
 
     /**
      * 从数据库中根据 novel_id 来获取图书详情
@@ -44,7 +44,7 @@ public interface FictionClient {
      */
     @RequestMapping(value = "/novel-subscription-fiction/novel/{id}",
             method = RequestMethod.GET)
-    NovelInfo findNovel(@PathVariable Long id);
+    NovelInfo findNovel(@PathVariable("id") Long id);
 
     /**
      * 创建一条新的小说信息
@@ -64,5 +64,5 @@ public interface FictionClient {
      */
     @RequestMapping(value = "/novel-subscription-fiction/novel/{id}",
             method = RequestMethod.DELETE)
-    NovelInfo deleteNovel(@PathVariable Long id);
+    NovelInfo deleteNovel(@PathVariable("id") Long id);
 }
