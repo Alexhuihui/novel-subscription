@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping("/test")
     public String test() {
-//        mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply"));
-        log.info(fictionClient.findNovel(36681L).toString());
+        mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply"));
+//        log.info(fictionClient.findNovel(36681L).toString());
         return "ok";
     }
 }
