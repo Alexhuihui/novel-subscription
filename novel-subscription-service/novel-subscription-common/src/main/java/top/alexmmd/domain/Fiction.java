@@ -1,11 +1,17 @@
 package top.alexmmd.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
+ * 笔趣阁返回的小说信息
+ *
  * @author 汪永晖
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Fiction {
 
     private Long id;
