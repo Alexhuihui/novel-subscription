@@ -1,6 +1,7 @@
 package top.alexmmd.client;
 
 import org.springframework.stereotype.Component;
+import top.alexmmd.domain.CommonReply;
 import top.alexmmd.domain.MailInfo;
 
 /**
@@ -15,7 +16,8 @@ public class MailClientHystrix implements MailClient {
      * @param mailInfo 邮件基本内容
      */
     @Override
-    public void sendTextMail(MailInfo mailInfo) {
-
+    public CommonReply sendTextMail(MailInfo mailInfo) {
+        System.out.println("test1");
+        return new CommonReply("500", "服务降级策略生效");
     }
 }

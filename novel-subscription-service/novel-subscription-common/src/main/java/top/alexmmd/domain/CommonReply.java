@@ -12,11 +12,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class MailInfo {
+public class CommonReply {
 
-    private String toAddr;
+    private String status;
 
-    private String title;
-
-    private String content;
+    private String text;
 }

@@ -4,6 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import top.alexmmd.domain.CommonReply;
 import top.alexmmd.domain.MailInfo;
 
 /**
@@ -22,5 +23,5 @@ public interface MailClient {
      */
     @RequestMapping(value = "/novel-subscription-mail/mail/sendText",
             method = RequestMethod.POST)
-    void sendTextMail(@RequestBody MailInfo mailInfo);
+    CommonReply sendTextMail(@RequestBody MailInfo mailInfo);
 }

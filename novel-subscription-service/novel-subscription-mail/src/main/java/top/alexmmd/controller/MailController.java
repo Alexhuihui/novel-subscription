@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import top.alexmmd.domain.CommonReply;
 import top.alexmmd.domain.MailInfo;
 import top.alexmmd.service.MailService;
 
@@ -26,7 +27,10 @@ public class MailController {
      * @param mailInfo 邮件基本内容
      */
     @PostMapping("/sendText")
-    public void sendTextMail(@RequestBody MailInfo mailInfo) {
+    public CommonReply sendTextMail(@RequestBody MailInfo mailInfo) {
+
         mailService.sendTextMail(mailInfo.getToAddr(), mailInfo.getTitle(), mailInfo.getContent());
+
+        return new CommonReply("200", "Mail has been send successful.");
     }
 }
