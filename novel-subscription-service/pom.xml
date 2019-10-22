@@ -14,6 +14,7 @@
     <modules>
         <module>novel-subscription-fiction</module>
         <module>novel-subscription-common</module>
+        <module>novel-subscription-mail</module>
     </modules>
 
     <packaging>pom</packaging>
