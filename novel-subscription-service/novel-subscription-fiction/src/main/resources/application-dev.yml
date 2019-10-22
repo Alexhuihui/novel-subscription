@@ -24,6 +24,9 @@ spring:
       max-active: 4
       min-idle: 2
       initial-size: 2
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
 
 eureka:
   client:

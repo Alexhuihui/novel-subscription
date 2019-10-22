@@ -14,6 +14,10 @@ zuul:
       path: /novel-subscription-fiction/**
       serviceId: novel-subscription-fiction
       strip-prefix: false
+    novel-subscription-mail:
+      path: /novel-subscription-mail/**
+      serviceId: novel-subscription-mail
+      strip-prefix: false
   host:
       connect-timeout-millis: 10000
       socket-timeout-millis: 60000
