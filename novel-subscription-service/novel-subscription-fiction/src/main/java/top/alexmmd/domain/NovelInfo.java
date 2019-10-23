@@ -54,7 +54,7 @@ public class NovelInfo {
 
     // 小说被爬取状态
     @Column(name = "novel_status", nullable = false)
-    private String novelStatus;
+    private Integer novelStatus;
 
     /**
      * 创建时间

@@ -45,6 +45,10 @@ public class NovelChapter {
     @Column(name = "chapter_title", nullable = false)
     private String chapterTitle;
 
+    // 章节被爬取状态
+    @Column(name = "chapter_status", nullable = false)
+    private Integer chapterStatus;
+
     /**
      * 创建时间
      */

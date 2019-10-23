@@ -37,6 +37,17 @@ public class NovelUserFiction {
     @Column(name = "novel_id", nullable = false)
     private Long novelId;
 
+    // 用户名
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    // email
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    // 小说名称
+    @Column(name = "novel_name", nullable = false)
+    private String novelName;
 
     /**
      * 创建时间
