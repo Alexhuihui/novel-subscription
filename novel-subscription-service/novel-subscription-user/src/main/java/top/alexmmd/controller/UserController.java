@@ -2,13 +2,13 @@ package top.alexmmd.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import top.alexmmd.client.FictionClient;
 import top.alexmmd.client.MailClient;
 import top.alexmmd.domain.MailInfo;
-import top.alexmmd.domain.NovelInfo;
+import top.alexmmd.domain.NovelUser;
+import top.alexmmd.domain.NovelUserFiction;
+import top.alexmmd.repository.NovelUserRepository;
 
 /**
  * @author 汪永晖
@@ -24,11 +24,39 @@ public class UserController {
     @Autowired
     private FictionClient fictionClient;
 
+    @Autowired
+    private NovelUserRepository novelUserRepository;
+
+    /**
+     * 测试用
+     * @return
+     */
     @GetMapping("/test")
     public String test() {
         log.info(mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply")).toString());
 //        log.info(fictionClient.findNovel(36681L).toString());
 //        log.info(fictionClient.addNovel(new NovelInfo(36681)).toString());
         return "ok";
+    }
+
+    /**
+     * 注册用户
+     * @param novelUser 用户信息
+     * @return 用户信息
+     */
+    @PostMapping
+    public NovelUser addUser(@RequestBody NovelUser novelUser) {
+        return novelUserRepository.save(novelUser);
+    }
+
+
+    /**
+     * 添加订阅
+     * @param id 要订阅的书籍 id
+     * @return 订阅详细信息
+     */
+    @PostMapping("/{id}")
+    public NovelUserFiction add(@PathVariable("id") Long id) {
+        return null;
     }
 }

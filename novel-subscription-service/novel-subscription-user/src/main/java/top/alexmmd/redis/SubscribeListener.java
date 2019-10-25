@@ -66,6 +66,8 @@ public class SubscribeListener implements MessageListener {
 
             // 更新一下 chapterStatus 字段
             novelChapterRepository.saveAll(novelChapterList);
+        } else {
+            return ;
         }
 
         // 查询订阅了该 novel_id 的读者
