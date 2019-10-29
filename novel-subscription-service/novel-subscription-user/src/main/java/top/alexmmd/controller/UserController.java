@@ -8,7 +8,9 @@ import top.alexmmd.client.MailClient;
 import top.alexmmd.domain.MailInfo;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.NovelUserFiction;
+import top.alexmmd.domain.SubscriptionInfo;
 import top.alexmmd.repository.NovelUserRepository;
+import top.alexmmd.service.NovelUserFictionService;
 
 /**
  * @author 汪永晖
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private NovelUserRepository novelUserRepository;
+
+    @Autowired
+    private NovelUserFictionService novelUserFictionService;
 
     /**
      * 测试用
@@ -52,11 +57,10 @@ public class UserController {
 
     /**
      * 添加订阅
-     * @param id 要订阅的书籍 id
      * @return 订阅详细信息
      */
-    @PostMapping("/{id}")
-    public NovelUserFiction add(@PathVariable("id") Long id) {
-        return null;
+    @PostMapping()
+    public NovelUserFiction add(@RequestBody SubscriptionInfo subscriptionInfo) {
+        return novelUserFictionService.add(subscriptionInfo.getNovelId(), subscriptionInfo.getUserId());
     }
 }

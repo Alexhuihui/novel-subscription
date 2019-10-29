@@ -9,8 +9,9 @@ public interface NovelUserFictionService {
 
     /**
      * 增加订阅
-     * @param id
+     * @param novelId
+     * @param userId
      * @return
      */
-    NovelUserFiction add(Long id);
+    NovelUserFiction add(Long novelId, Long userId);
 }
