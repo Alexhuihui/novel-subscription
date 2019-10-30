@@ -19,12 +19,12 @@ public interface FictionClient {
     /**
      * 从笔趣阁根据novel_id来获取图书详情
      *
-     * @param id novel_id
+     * @param fictionId novel_id
      * @return 详细信息
      */
-    @RequestMapping(value = "/novel-subscription-fiction/fiction/{id}",
+    @RequestMapping(value = "/novel-subscription-fiction/fiction/{fictionId}",
             method = RequestMethod.GET)
-    Fiction findFiction(@PathVariable("id") Long id);
+    Fiction findFiction(@PathVariable("fictionId") Long fictionId);
 
     /**
      * 从笔趣阁根据关键字来查询图书详情

@@ -18,11 +18,11 @@ public class FictionClientHystrix implements FictionClient {
     /**
      * 笔趣阁根据novel_id来获取图书详情
      *
-     * @param id novel_id
+     * @param fictionId novel_id
      * @return 详细信息
      */
     @Override
-    public Fiction findFiction(Long id) {
+    public Fiction findFiction(Long fictionId) {
         return new Fiction();
     }
 

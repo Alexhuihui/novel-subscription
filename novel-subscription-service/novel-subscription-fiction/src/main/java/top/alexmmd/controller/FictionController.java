@@ -30,10 +30,12 @@ public class FictionController {
      * @return 小说详细信息
      */
     @GetMapping("/{id}")
-    public Fiction findFiction(@PathVariable Long id) {
+    public Fiction findFiction(@PathVariable("id") Long id) {
         logger.info("要查找的novel_id是" + id);
 
         Fiction fiction = fictionService.findFictionById(id);
+
+        logger.info("要查找的小说信息是" + fiction.toString());
 
         return fiction;
     }
@@ -44,7 +46,7 @@ public class FictionController {
      * @return 图书列表
      */
     @GetMapping("/search")
-    public List<Fiction> getFictions(@RequestParam String keyword) {
+    public List<Fiction> getFictions(@RequestParam("keyword") String keyword) {
         logger.info("按照" + keyword + "进行搜索");
 
         List<Fiction> fictions = fictionService.searchByKeyword(keyword);

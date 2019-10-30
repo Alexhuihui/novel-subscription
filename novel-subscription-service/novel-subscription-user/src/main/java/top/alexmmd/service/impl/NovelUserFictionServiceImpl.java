@@ -1,5 +1,8 @@
 package top.alexmmd.service.impl;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.alexmmd.client.FictionClient;
@@ -15,6 +18,7 @@ import top.alexmmd.service.NovelUserFictionService;
  * @author 汪永晖
  */
 @Service
+@Slf4j
 public class NovelUserFictionServiceImpl implements NovelUserFictionService {
 
     @Autowired
@@ -38,6 +42,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
 
         // 根据 novelId 调用笔趣阁API查询小说的详细信息
         Fiction fiction = fictionClient.findFiction(novelId);
+        log.info("<novel-subscription-user>: select fiction -> {}", fiction.toString());
 
         // 构造 novel_info 表中的数据信息
         NovelInfo novelInfo = new NovelInfo();
@@ -54,6 +59,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
 
         // 根据 userId 查询读者的相关信息
         NovelUser novelUser = novelUserRepository.findById(userId).orElse(new NovelUser());
+        log.info("<novel-subscription-user>: select user -> {}", novelUser.toString());
 
         // 构造 novel_user_fiction 表的对应的实体类的数据
         NovelUserFiction novelUserFiction = new NovelUserFiction();
@@ -64,6 +70,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
         novelUserFiction.setUserId(userId);
 
         // 向 novel_user_fiction 表插入一条数据
+        log.info("<novel-subscription-user>: insert into novel_user_fiction -> {}", novelUserFiction.toString());
 
         return novelUserFictionRepository.save(novelUserFiction);
     }

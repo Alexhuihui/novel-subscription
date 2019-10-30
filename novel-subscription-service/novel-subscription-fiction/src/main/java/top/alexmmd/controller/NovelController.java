@@ -3,8 +3,12 @@ package top.alexmmd.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.alexmmd.domain.Fiction;
 import top.alexmmd.domain.NovelInfo;
+import top.alexmmd.service.FictionService;
 import top.alexmmd.service.NovelService;
+
+import java.util.List;
 
 /**
  * 对数据库中对 novel_info 表进行操作
@@ -12,12 +16,14 @@ import top.alexmmd.service.NovelService;
  * @author 汪永晖
  */
 @RestController
-@RequestMapping("/novel")
 @Slf4j
 public class NovelController {
 
     @Autowired
     private NovelService novelService;
+
+    @Autowired
+    private FictionService fictionService;
 
     /**
      * 根据 novel_id 来获取图书详情
@@ -25,7 +31,7 @@ public class NovelController {
      * @param id novel_id
      * @return 小说详细信息
      */
-    @GetMapping("/{id}")
+    @GetMapping("/novel/{id}")
     public NovelInfo findNovel(@PathVariable Long id) {
         log.info("<novel-subscription-fiction>: get novel info -> {}", id);
 
@@ -40,7 +46,7 @@ public class NovelController {
      * @param novelInfo 详细信息
      * @return 创建好的小说或者之前存在的小说
      */
-    @PostMapping
+    @PostMapping("/novel")
     public NovelInfo addNovel(@RequestBody NovelInfo novelInfo) {
         log.info("<novel-subscription-fiction>: add novel info -> {}", novelInfo.getNovelName());
 
@@ -53,7 +59,7 @@ public class NovelController {
      * @param id novel_id
      * @return 空的 novel_info
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/novel/{id}")
     public NovelInfo deleteNovel(@PathVariable Long id) {
         log.info("<novel-subscription-fiction>: delete novel info -> {}", id);
 

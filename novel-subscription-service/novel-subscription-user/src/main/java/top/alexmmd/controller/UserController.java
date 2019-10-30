@@ -38,9 +38,10 @@ public class UserController {
      */
     @GetMapping("/test")
     public String test() {
-        log.info(mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply")).toString());
-//        log.info(fictionClient.findNovel(36681L).toString());
-//        log.info(fictionClient.addNovel(new NovelInfo(36681)).toString());
+//        log.info(mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply")).toString());
+        log.info(fictionClient.findNovel(36681L).toString());
+        log.info(fictionClient.findFiction(34197L).toString());
+        log.info(fictionClient.getFictions("斗罗大陆").toString());
         return "ok";
     }
 
@@ -59,7 +60,7 @@ public class UserController {
      * 添加订阅
      * @return 订阅详细信息
      */
-    @PostMapping()
+    @PostMapping("/novelUserFiction")
     public NovelUserFiction add(@RequestBody SubscriptionInfo subscriptionInfo) {
         return novelUserFictionService.add(subscriptionInfo.getNovelId(), subscriptionInfo.getUserId());
     }
