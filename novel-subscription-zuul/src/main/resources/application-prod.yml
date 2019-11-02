@@ -2,7 +2,7 @@ server:
   port: 9000
 spring:
   application:
-    name: homepage-zuul
+    name: novel-subscription-zuul
 eureka:
   instance:
     non-secure-port-enabled: true
@@ -10,21 +10,41 @@ eureka:
     secure-port-enabled: false
     secure-port: 443
 
-    hostname: homepage-zuul
+    hostname: novel-subscription-zuul
     prefer-ip-address: true
-    ip-address: 121
+    ip-address: 121.0.0.0
     instance-id: ${eureka.instance.ip-address}:${server.port}
   client:
     service-url:
-      defaultZone: http://121:8003/eureka/,http://120:8002/eureka/
+      defaultZone: http://121.0.0.0:8005/eureka/,http://120.0.0.0:8004/eureka/
 zuul:
-  prefix: /imooc
+  prefix: /api
   routes:
-    course:
-      path: /homepage-course/**
-      serviceId: eureka-client-homepage-course
+    novel-subscription-fiction:
+      path: /novel-subscription-fiction/**
+      serviceId: novel-subscription-fiction
       strip-prefix: false
-    user:
-      path: /homepage-user/**
-      serviceId: eureka-client-homepage-user
+    novel-subscription-user:
+      path: /novel-subscription-user/**
+      serviceId: novel-subscription-user
       strip-prefix: false
+    novel-subscription-mail:
+      path: /novel-subscription-mail/**
+      serviceId: novel-subscription-mail
+      strip-prefix: false
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
+
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeout-in-milliseconds: 3000

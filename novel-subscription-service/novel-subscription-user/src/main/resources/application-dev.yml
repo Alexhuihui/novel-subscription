@@ -16,9 +16,9 @@ spring:
       hibernate.format_sql: true
     open-in-view: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/novel_subscription?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
+    url: jdbc:mysql://127.0.0.0:3306/novel_subscription?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
     username: root
-    password: qwerty123
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:
       max-active: 4
@@ -26,9 +26,9 @@ spring:
       initial-size: 2
   redis:
     database: 0   # Redis数据库索引（默认为0）
-    host: .79.226.196  # Redis服务器地址
+    host: 120.0.0.0  # Redis服务器地址
     port: 6379  # Redis服务器连接端口
-    password: qwerty123 # Redis服务器连接密码（默认为空）
+    password:  # Redis服务器连接密码（默认为空）
     timeout: 5000
 
 eureka:
@@ -47,7 +47,7 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 6000
+            timeoutInMilliseconds: 8000
 
 ribbon:
   ReadTimeout: 60000

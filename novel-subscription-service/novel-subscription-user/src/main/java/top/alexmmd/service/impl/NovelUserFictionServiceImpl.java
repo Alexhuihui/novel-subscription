@@ -14,6 +14,8 @@ import top.alexmmd.repository.NovelUserFictionRepository;
 import top.alexmmd.repository.NovelUserRepository;
 import top.alexmmd.service.NovelUserFictionService;
 
+import java.util.List;
+
 /**
  * @author 汪永晖
  */
@@ -53,8 +55,11 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
         novelInfo.setNovelType(fiction.getCategory());
         novelInfo.setNovelUrl(fiction.getNovelUrl());
         novelInfo.setId(novelId);
+        novelInfo.setNovelStatus(0);
 
         // 调用 fictionClient 尝试向数据库 novel_info 表中增加一条记录
+        log.info("<novel-subscription-user>: insert into novel_info -> {}", novelInfo.toString());
+
         fictionClient.addNovel(novelInfo);
 
         // 根据 userId 查询读者的相关信息
@@ -73,5 +78,16 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
         log.info("<novel-subscription-user>: insert into novel_user_fiction -> {}", novelUserFiction.toString());
 
         return novelUserFictionRepository.save(novelUserFiction);
+    }
+
+    /**
+     * 查询该用户订阅的所有小说
+     *
+     * @param id user_id
+     * @return
+     */
+    @Override
+    public List<NovelUserFiction> selectNovelUserFiction(Long id) {
+        return novelUserFictionRepository.findAllByUserId(id);
     }
 }

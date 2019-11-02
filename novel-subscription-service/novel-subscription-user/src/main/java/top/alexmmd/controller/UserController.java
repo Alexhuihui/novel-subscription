@@ -12,6 +12,8 @@ import top.alexmmd.domain.SubscriptionInfo;
 import top.alexmmd.repository.NovelUserRepository;
 import top.alexmmd.service.NovelUserFictionService;
 
+import java.util.List;
+
 /**
  * @author 汪永晖
  */
@@ -34,6 +36,7 @@ public class UserController {
 
     /**
      * 测试用
+     *
      * @return
      */
     @GetMapping("/test")
@@ -47,6 +50,7 @@ public class UserController {
 
     /**
      * 注册用户
+     *
      * @param novelUser 用户信息
      * @return 用户信息
      */
@@ -58,10 +62,22 @@ public class UserController {
 
     /**
      * 添加订阅
+     *
      * @return 订阅详细信息
      */
     @PostMapping("/novelUserFiction")
     public NovelUserFiction add(@RequestBody SubscriptionInfo subscriptionInfo) {
         return novelUserFictionService.add(subscriptionInfo.getNovelId(), subscriptionInfo.getUserId());
+    }
+
+    /**
+     * 查询该用户订阅的所有小说
+     *
+     * @param id user_id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public List<NovelUserFiction> selectNovelUserFiction(@PathVariable("id") Long id) {
+        return novelUserFictionService.selectNovelUserFiction(id);
     }
 }

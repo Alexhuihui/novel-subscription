@@ -39,7 +39,7 @@ public class NovelInfo {
     private String novelUrl;
 
     // 小说被爬取状态
-    private String novelStatus;
+    private Integer novelStatus;
 
     /**
      * 创建时间

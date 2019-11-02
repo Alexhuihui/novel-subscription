@@ -55,12 +55,14 @@ public class SubscribeListener implements MessageListener {
         // 根据 novel_id 和 chapterStatus = 0 查出更新的章节
         List<NovelChapter> novelChapterList = novelChapterRepository.findAllByNovelIdAndChapterStatus(novelId, 0);
 
+        log.info("<novel-subscription-user>: latest novel chapter -> {}", CollectionUtils.lastElement(novelChapterList).toString());
+
         List<NovelChapterDetail> novelChapterDetailList = null;
 
         if (!CollectionUtils.isEmpty(novelChapterList)) {
             for (NovelChapter novelChapter : novelChapterList) {
                 // 查询更新章节的内容
-                novelChapterDetailList = novelChapterDetailRepository.findAllByNovelIdAndChapterId(novelChapter.getNovelId(), novelChapter.getId());
+                novelChapterDetailList = novelChapterDetailRepository.findAllByNovelIdAndChapterId(novelChapter.getNovelId(), Long.valueOf(novelChapter.getChapterRealId()));
                 novelChapter.setChapterStatus(1);
             }
 
@@ -70,8 +72,13 @@ public class SubscribeListener implements MessageListener {
             return ;
         }
 
+        log.info("<novel-subscription-user>: latest novel chapter detail -> {}", CollectionUtils.lastElement(novelChapterDetailList).getTitle());
+
+
         // 查询订阅了该 novel_id 的读者
         List<NovelUserFiction> novelUserFictionList = novelUserFictionRepository.findAllByNovelId(novelId);
+
+        log.info("<novel-subscription-user>: subscription novel user -> {}", CollectionUtils.lastElement(novelUserFictionList).toString());
 
         // 调用 mail 接口发送邮件
         for (NovelUserFiction novelUserFiction : novelUserFictionList) {

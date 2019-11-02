@@ -1,29 +1,35 @@
 server:
-  port: 7000
+  port: 7002
   servlet:
-    context-path: /homepage-user
+    context-path: /novel-subscription-user
 
 spring:
   main:
     allow-bean-definition-overriding: true
   application:
-    name: eureka-client-homepage-user
+    name: novel-subscription-user
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     properties:
       hibernate.format_sql: true
     open-in-view: false
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/imooc_homepage_sc?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://127.0.0.0:3306/novel_subscription?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2b8
     username: root
-    password: QWErty123
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
     tomcat:
       max-active: 4
       min-idle: 2
       initial-size: 2
+  redis:
+    database: 0   # Redis数据库索引（默认为0）
+    host: 120.0.0.0  # Redis服务器地址
+    port: 6379  # Redis服务器连接端口
+    password:  # Redis服务器连接密码（默认为空）
+    timeout: 5000
 
 eureka:
   instance:
@@ -32,14 +38,27 @@ eureka:
     secure-port-enabled: false
     secure-port: 443
 
-    hostname: eureka-client-homepage-user
+    hostname: novel-subscription-user
     prefer-ip-address: true
-    ip-address: 121.196.214.60
+    ip-address: 120.0.0.0
     instance-id: ${eureka.instance.ip-address}:${server.port}
   client:
     service-url:
-      defaultZone: http://121.196.214.60:8003/eureka/,http://120.79.226.196:8002/eureka/
+      defaultZone: http://121.0.0.0:8005/eureka/,http://120..0.0.0:8004/eureka/
 
 feign:
   hystrix:
     enabled: true
+
+# 统一设置超时时间
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
