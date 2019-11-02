@@ -7,72 +7,72 @@
 
 ![](https://tva1.sinaimg.cn/large/006y8mN6gy1g87ckve9stj30qo0k0wex.jpg)
 
-## Installation
+## Introduce
 
-OS X & Linux:
+用户能够注册，并订阅喜欢的小说。然后系统就会在该小说更新后立刻发送更新的小说章节到用户的邮箱，使得用户不用每时每刻都要关注小说的更新状况。下面简单介绍一下各个模块的功能：
 
-```sh
-npm install my-crazy-module --save
-```
+### novel-subscription-eurka
 
-Windows:
+微服务的注册中心，本项目在开发环境只启动了一个注册中心。实际在线上部署的使用了高可用的双注册中心，分别部署在2台不同的服务器上。
 
-```sh
-edit autoexec.bat
-```
+### novel-subscription-zuul
+
+通过网关访问所有的后端服务
+
+### novel-subscription-service
+
+包含了所有的业务模块
+
+#### common
+
+其它模板通信时或者都要使用的某些类（实体类、工具类）
+
+#### mail
+
+邮件服务，肩负着系统最后的最后一环——发送更新小说的邮件给用户
+
+#### fiction
+
+提供相关的小说信息的查询服务
+
+#### user
+
+本系统中最重要的一环，包含用户的所有操作的接口（注册、订阅小说）:
+
+1. 监听 Redis 的 novel 频道
+    1. scrapy 爬虫会定时爬取网页，发现小说更新后会向 Redis 的 novel 频道发送更新小说的 novel_id
+    2. 当 user 服务监听到有小说更新后，向订阅了该本小说的用户发送更新邮件
+    
+2. 最热小说、最新小说（后续更新中）
 
 ## Usage example
 
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
+暂时未对外开放，如需尝试订阅小说的朋友请联系我下方的邮箱。
 
-_For more examples and usage, please refer to the [Wiki][wiki]._
+## Development Build
 
-## Development setup
+1. redis
+2. nginx
+3. mysql
+4. java
+5. python(scrapy)
 
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-npm test
-```
-
-## Release History
-
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
-* 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
 
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Alex – [@Alexhuihui](https://github.com/Alexhuihui) – 2930807240@qq.com
 
-Distributed under the XYZ license. See ``LICENSE`` for more information.
-
-[https://github.com/yourname/github-link](https://github.com/dbader/)
 
 ## Contributing
 
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
+1. Fork it (<https://github.com/Alexhuihui/novel-subscription/fork>)
 2. Create your feature branch (`git checkout -b feature/fooBar`)
 3. Commit your changes (`git commit -am 'Add some fooBar'`)
 4. Push to the branch (`git push origin feature/fooBar`)
 5. Create a new Pull Request
 
 <!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
 [travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
 
 
