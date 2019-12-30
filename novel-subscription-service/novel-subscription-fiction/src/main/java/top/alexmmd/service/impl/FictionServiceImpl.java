@@ -28,7 +28,7 @@ public class FictionServiceImpl implements FictionService {
     public Fiction findFictionById(Long id) {
 
         //拼装URL，加上ID
-        String requestUrl = URL_ID + id.toString();
+        String requestUrl = URL_ID + id.toString() + "/";
 
         //调用HTTPUtils去获取HTML页面
         String html = null;
@@ -52,7 +52,7 @@ public class FictionServiceImpl implements FictionService {
         //调用HTTPUtils去获取HTML页面
         String html = null;
         Map<String, Object> map = new HashMap<>();
-        map.put("keyword", keyword);
+        map.put("q", keyword);
         try {
             html = HTTPUtils.doGetWithParameter(URL_SEARCH, map);
         } catch (Exception e) {
