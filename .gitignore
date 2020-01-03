@@ -1,5 +1,5 @@
 mvn*
-application-*
+application-dev.yml
 application-prod.yml
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -32,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+application-dev.yml
+application-dev.yml
+application-prod.yml
