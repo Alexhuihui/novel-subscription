@@ -1,17 +1,12 @@
 package top.alexmmd.service.impl;
 
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.alexmmd.client.FictionClient;
-import top.alexmmd.domain.Fiction;
-import top.alexmmd.domain.NovelInfo;
-import top.alexmmd.domain.NovelUser;
-import top.alexmmd.domain.NovelUserFiction;
-import top.alexmmd.repository.NovelUserFictionRepository;
-import top.alexmmd.repository.NovelUserRepository;
+import top.alexmmd.repository.NovelUserDao;
+import top.alexmmd.repository.NovelUserFictionDao;
+import top.alexmmd.domain.*;
 import top.alexmmd.service.NovelUserFictionService;
 
 import java.util.List;
@@ -27,10 +22,10 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
     private FictionClient fictionClient;
 
     @Autowired
-    private NovelUserRepository novelUserRepository;
+    private NovelUserDao novelUserDao;
 
     @Autowired
-    private NovelUserFictionRepository novelUserFictionRepository;
+    private NovelUserFictionDao novelUserFictionDao;
 
     /**
      * 增加订阅
@@ -40,7 +35,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
      * @return
      */
     @Override
-    public NovelUserFiction add(Long novelId, Long userId) {
+    public RespEntity add(Long novelId, Long userId) {
 
         // 根据 novelId 调用笔趣阁API查询小说的详细信息
         Fiction fiction = fictionClient.findFiction(novelId);
@@ -63,7 +58,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
         fictionClient.addNovel(novelInfo);
 
         // 根据 userId 查询读者的相关信息
-        NovelUser novelUser = novelUserRepository.findById(userId).orElse(new NovelUser());
+        NovelUser novelUser = novelUserDao.queryById(userId);
         log.info("<novel-subscription-user>: select user -> {}", novelUser.toString());
 
         // 构造 novel_user_fiction 表的对应的实体类的数据
@@ -77,7 +72,7 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
         // 向 novel_user_fiction 表插入一条数据
         log.info("<novel-subscription-user>: insert into novel_user_fiction -> {}", novelUserFiction.toString());
 
-        return novelUserFictionRepository.save(novelUserFiction);
+        return novelUserFictionDao.insert(novelUserFiction) > 0 ? new RespEntity(101, "成功新增订阅") : new RespEntity(500, "新增订阅失败");
     }
 
     /**
@@ -87,7 +82,22 @@ public class NovelUserFictionServiceImpl implements NovelUserFictionService {
      * @return
      */
     @Override
-    public List<NovelUserFiction> selectNovelUserFiction(Long id) {
-        return novelUserFictionRepository.findAllByUserId(id);
+    public RespEntity selectNovelUserFiction(Long id) {
+        List<NovelUserFiction> novelUserFictions = novelUserFictionDao.queryAll(NovelUserFiction.builder()
+                .userId(id)
+                .build());
+        return new RespEntity(100, "成功查询该用户订阅的所有小说", novelUserFictions);
+    }
+
+    /**
+     * 新增用户
+     *
+     * @param novelUser
+     * @return
+     */
+    @Override
+    public RespEntity insert(NovelUser novelUser) {
+        novelUserDao.insert(novelUser);
+        return new RespEntity(101, "成功新增用户");
     }
 }

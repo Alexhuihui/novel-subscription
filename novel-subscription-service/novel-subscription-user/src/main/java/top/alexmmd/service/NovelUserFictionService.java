@@ -1,6 +1,8 @@
 package top.alexmmd.service;
 
+import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.NovelUserFiction;
+import top.alexmmd.domain.RespEntity;
 
 import java.util.List;
 
@@ -16,7 +18,7 @@ public interface NovelUserFictionService {
      * @param userId
      * @return
      */
-    NovelUserFiction add(Long novelId, Long userId);
+    RespEntity add(Long novelId, Long userId);
 
     /**
      * 查询该用户订阅的所有小说
@@ -24,5 +26,13 @@ public interface NovelUserFictionService {
      * @param id user_id
      * @return
      */
-    List<NovelUserFiction> selectNovelUserFiction(Long id);
+    RespEntity selectNovelUserFiction(Long id);
+
+    /**
+     * 新增用户
+     *
+     * @param novelUser
+     * @return
+     */
+    RespEntity insert(NovelUser novelUser);
 }

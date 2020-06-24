@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.alexmmd.domain.Fiction;
+import top.alexmmd.domain.RespEntity;
 import top.alexmmd.service.FictionService;
 
 import java.util.List;
@@ -30,14 +31,14 @@ public class FictionController {
      * @return 小说详细信息
      */
     @GetMapping("/{id}")
-    public Fiction findFiction(@PathVariable("id") Long id) {
+    public RespEntity findFiction(@PathVariable("id") Long id) {
         logger.info("要查找的novel_id是" + id);
 
         Fiction fiction = fictionService.findFictionById(id);
 
         logger.info("要查找的小说信息是" + fiction.toString());
 
-        return fiction;
+        return new RespEntity(100, "成功返回图书信息", fiction);
     }
 
     /**
@@ -46,11 +47,11 @@ public class FictionController {
      * @return 图书列表
      */
     @GetMapping("/search")
-    public List<Fiction> getFictions(@RequestParam("keyword") String keyword) {
+    public RespEntity getFictions(@RequestParam("keyword") String keyword) {
         logger.info("按照" + keyword + "进行搜索");
 
         List<Fiction> fictions = fictionService.searchByKeyword(keyword);
 
-        return fictions;
+        return new RespEntity(100, "成功返回搜索结果", fictions);
     }
 }

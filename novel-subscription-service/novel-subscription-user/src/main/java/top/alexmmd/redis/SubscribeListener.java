@@ -6,13 +6,13 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.util.CollectionUtils;
 import top.alexmmd.client.MailClient;
+import top.alexmmd.repository.NovelChapterDao;
+import top.alexmmd.repository.NovelChapterDetailDao;
+import top.alexmmd.repository.NovelUserFictionDao;
 import top.alexmmd.domain.MailInfo;
 import top.alexmmd.domain.NovelChapter;
 import top.alexmmd.domain.NovelChapterDetail;
 import top.alexmmd.domain.NovelUserFiction;
-import top.alexmmd.repository.NovelChapterDetailRepository;
-import top.alexmmd.repository.NovelChapterRepository;
-import top.alexmmd.repository.NovelUserFictionRepository;
 
 import java.util.List;
 
@@ -23,13 +23,13 @@ import java.util.List;
 public class SubscribeListener implements MessageListener {
 
     @Autowired
-    private NovelChapterRepository novelChapterRepository;
+    private NovelChapterDao novelChapterDao;
 
     @Autowired
-    private NovelChapterDetailRepository novelChapterDetailRepository;
+    private NovelChapterDetailDao novelChapterDetailDao;
 
     @Autowired
-    private NovelUserFictionRepository novelUserFictionRepository;
+    private NovelUserFictionDao novelUserFictionDao;
 
     @Autowired
     private MailClient mailClient;
@@ -37,9 +37,10 @@ public class SubscribeListener implements MessageListener {
     /**
      * <h2>消息回调</h2>
      * <h3>如果是 ChannelTopic, 则 channel 字段与 pattern 字段值相同</h3>
+     *
      * @param message {@link Message} 消息体 + ChannelName
      * @param pattern 订阅的 pattern, ChannelName 的模式匹配
-     * */
+     */
     @Override
     public void onMessage(Message message, byte[] pattern) {
 
@@ -53,7 +54,10 @@ public class SubscribeListener implements MessageListener {
 
 
         // 根据 novel_id 和 chapterStatus = 0 查出更新的章节
-        List<NovelChapter> novelChapterList = novelChapterRepository.findAllByNovelIdAndChapterStatus(novelId, 0);
+        List<NovelChapter> novelChapterList = novelChapterDao.queryAll(NovelChapter.builder()
+                .novelId(novelId)
+                .chapterStatus(0)
+                .build());
 
         log.info("<novel-subscription-user>: latest novel chapter -> {}", CollectionUtils.lastElement(novelChapterList).toString());
 
@@ -62,21 +66,25 @@ public class SubscribeListener implements MessageListener {
         if (!CollectionUtils.isEmpty(novelChapterList)) {
             for (NovelChapter novelChapter : novelChapterList) {
                 // 查询更新章节的内容
-                novelChapterDetailList = novelChapterDetailRepository.findAllByNovelIdAndChapterId(novelChapter.getNovelId(), Long.valueOf(novelChapter.getChapterRealId()));
+                novelChapterDetailList = novelChapterDetailDao.queryAll(NovelChapterDetail.builder()
+                        .novelId(novelChapter.getNovelId())
+                        .chapterId(Long.valueOf(novelChapter.getChapterRealId()))
+                        .build());
+                // 更新一下 chapterStatus 字段
                 novelChapter.setChapterStatus(1);
+                novelChapterDao.update(novelChapter);
             }
-
-            // 更新一下 chapterStatus 字段
-            novelChapterRepository.saveAll(novelChapterList);
         } else {
-            return ;
+            return;
         }
 
         log.info("<novel-subscription-user>: latest novel chapter detail -> {}", CollectionUtils.lastElement(novelChapterDetailList).getTitle());
 
 
         // 查询订阅了该 novel_id 的读者
-        List<NovelUserFiction> novelUserFictionList = novelUserFictionRepository.findAllByNovelId(novelId);
+        List<NovelUserFiction> novelUserFictionList = novelUserFictionDao.queryAll(NovelUserFiction.builder()
+                .novelId(novelId)
+                .build());
 
         log.info("<novel-subscription-user>: subscription novel user -> {}", CollectionUtils.lastElement(novelUserFictionList).toString());
 

@@ -1,9 +1,6 @@
 package top.alexmmd.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * 笔趣阁返回的小说信息
@@ -14,6 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class Fiction {
 
     private Long id;

@@ -5,11 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.alexmmd.client.FictionClient;
 import top.alexmmd.client.MailClient;
-import top.alexmmd.domain.MailInfo;
-import top.alexmmd.domain.NovelUser;
-import top.alexmmd.domain.NovelUserFiction;
-import top.alexmmd.domain.SubscriptionInfo;
-import top.alexmmd.repository.NovelUserRepository;
+import top.alexmmd.domain.*;
 import top.alexmmd.service.NovelUserFictionService;
 
 import java.util.List;
@@ -29,9 +25,6 @@ public class UserController {
     private FictionClient fictionClient;
 
     @Autowired
-    private NovelUserRepository novelUserRepository;
-
-    @Autowired
     private NovelUserFictionService novelUserFictionService;
 
     /**
@@ -49,14 +42,14 @@ public class UserController {
     }
 
     /**
-     * 注册用户
+     * 新增用户
      *
      * @param novelUser 用户信息
      * @return 用户信息
      */
     @PostMapping
-    public NovelUser addUser(@RequestBody NovelUser novelUser) {
-        return novelUserRepository.save(novelUser);
+    public RespEntity addUser(@RequestBody NovelUser novelUser) {
+        return novelUserFictionService.insert(novelUser);
     }
 
 
@@ -66,7 +59,7 @@ public class UserController {
      * @return 订阅详细信息
      */
     @PostMapping("/novelUserFiction")
-    public NovelUserFiction add(@RequestBody SubscriptionInfo subscriptionInfo) {
+    public RespEntity add(@RequestBody SubscriptionInfo subscriptionInfo) {
         return novelUserFictionService.add(subscriptionInfo.getNovelId(), subscriptionInfo.getUserId());
     }
 
@@ -77,7 +70,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/{id}")
-    public List<NovelUserFiction> selectNovelUserFiction(@PathVariable("id") Long id) {
+    public RespEntity selectNovelUserFiction(@PathVariable("id") Long id) {
         return novelUserFictionService.selectNovelUserFiction(id);
     }
 }

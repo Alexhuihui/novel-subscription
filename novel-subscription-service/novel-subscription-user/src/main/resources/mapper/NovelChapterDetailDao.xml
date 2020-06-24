@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.alexmmd.repository.NovelChapterDetailDao">
+
+    <resultMap type="top.alexmmd.domain.NovelChapterDetail" id="NovelChapterDetailMap">
+        <result property="contentId" column="content_id" jdbcType="INTEGER"/>
+        <result property="novelId" column="novel_id" jdbcType="INTEGER"/>
+        <result property="chapterId" column="chapter_id" jdbcType="INTEGER"/>
+        <result property="contentUrl" column="content_url" jdbcType="VARCHAR"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="NovelChapterDetailMap">
+        select
+          content_id, novel_id, chapter_id, content_url, title, content, create_time, update_time
+        from novel_subscription.novel_chapter_detail
+        where content_id = #{contentId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="NovelChapterDetailMap">
+        select
+          content_id, novel_id, chapter_id, content_url, title, content, create_time, update_time
+        from novel_subscription.novel_chapter_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="NovelChapterDetailMap">
+        select
+          content_id, novel_id, chapter_id, content_url, title, content, create_time, update_time
+        from novel_subscription.novel_chapter_detail
+        <where>
+            <if test="contentId != null">
+                and content_id = #{contentId}
+            </if>
+            <if test="novelId != null">
+                and novel_id = #{novelId}
+            </if>
+            <if test="chapterId != null">
+                and chapter_id = #{chapterId}
+            </if>
+            <if test="contentUrl != null and contentUrl != ''">
+                and content_url = #{contentUrl}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="contentId" useGeneratedKeys="true">
+        insert into novel_subscription.novel_chapter_detail(novel_id, chapter_id, content_url, title, content, create_time, update_time)
+        values (#{novelId}, #{chapterId}, #{contentUrl}, #{title}, #{content}, #{createTime}, #{updateTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update novel_subscription.novel_chapter_detail
+        <set>
+            <if test="novelId != null">
+                novel_id = #{novelId},
+            </if>
+            <if test="chapterId != null">
+                chapter_id = #{chapterId},
+            </if>
+            <if test="contentUrl != null and contentUrl != ''">
+                content_url = #{contentUrl},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where content_id = #{contentId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from novel_subscription.novel_chapter_detail where content_id = #{contentId}
+    </delete>
+
+</mapper>
