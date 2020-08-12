@@ -4,13 +4,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * @author 汪永晖
  */
 @Data
 @NoArgsConstructor
 @ToString
-public class RespEntity {
+public class RespEntity implements Serializable {
 
     private int code;
     private String msg;

@@ -1,8 +1,10 @@
 package top.alexmmd.client;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import top.alexmmd.domain.Fiction;
 import top.alexmmd.domain.NovelInfo;
+import top.alexmmd.domain.RespEntity;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
  * @author 汪永晖
  */
 @Component
+@Slf4j
 public class FictionClientHystrix implements FictionClient {
 
     /**
@@ -23,6 +26,7 @@ public class FictionClientHystrix implements FictionClient {
      */
     @Override
     public Fiction findFiction(Long fictionId) {
+        log.warn("获取图书详情失败了");
         return new Fiction();
     }
 
@@ -32,10 +36,10 @@ public class FictionClientHystrix implements FictionClient {
      * @param keyword
      * @return
      */
-    @Override
-    public List<Fiction> getFictions(String keyword) {
-        return Collections.emptyList();
-    }
+//    @Override
+//    public List<Fiction> getFictions(String keyword) {
+//        return Collections.emptyList();
+//    }
 
     /**
      * 从数据库中根据 novel_id 来获取图书详情
@@ -56,6 +60,7 @@ public class FictionClientHystrix implements FictionClient {
      */
     @Override
     public NovelInfo addNovel(NovelInfo novelInfo) {
+        log.warn("创建一条新的小说信息失败了");
         return new NovelInfo();
     }
 

@@ -3,6 +3,7 @@ package top.alexmmd.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import top.alexmmd.repository.NovelUserDao;
 import top.alexmmd.repository.RoleDao;
 import top.alexmmd.repository.UsersRolesDao;
@@ -37,6 +38,7 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     @Override
+    @Transactional
     public RespEntity signUp(NovelUser user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setCreateTime(new Date());

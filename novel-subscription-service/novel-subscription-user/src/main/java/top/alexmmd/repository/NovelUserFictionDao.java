@@ -2,6 +2,8 @@ package top.alexmmd.repository;
 
 import top.alexmmd.domain.NovelUserFiction;
 import org.apache.ibatis.annotations.Param;
+import top.alexmmd.domain.NovelUserFictionVo;
+
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public interface NovelUserFictionDao {
      * 查询指定行数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<NovelUserFiction> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
@@ -57,9 +59,16 @@ public interface NovelUserFictionDao {
     /**
      * 通过主键删除数据
      *
-     * @param id 主键
+     * @param novelId 主键
      * @return 影响行数
      */
-    int deleteById(Long id);
+    int deleteById(@Param("novelId") Long novelId, @Param("username") String username);
 
+    /**
+     * 根据username查询所有订阅小说
+     *
+     * @param username
+     * @return
+     */
+    List<NovelUserFictionVo> queryAllSubscription(String username);
 }

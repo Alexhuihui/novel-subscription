@@ -59,14 +59,14 @@ public class NovelInfo {
     /**
      * 创建时间
      */
-    @Column(name = "create_time", nullable = false)
+    @Column(name = "create_time")
     @CreatedDate
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @Column(name = "update_time", nullable = false)
+    @Column(name = "update_time")
     @LastModifiedDate
     private Date updateTime;
 

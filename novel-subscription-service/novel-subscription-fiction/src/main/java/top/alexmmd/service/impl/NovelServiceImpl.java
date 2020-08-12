@@ -6,6 +6,7 @@ import top.alexmmd.domain.NovelInfo;
 import top.alexmmd.repository.NovelInfoRepository;
 import top.alexmmd.service.NovelService;
 
+import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -14,8 +15,11 @@ import java.util.Optional;
 @Service
 public class NovelServiceImpl implements NovelService {
 
-    @Autowired
-    private NovelInfoRepository novelInfoRepository;
+    private final NovelInfoRepository novelInfoRepository;
+
+    public NovelServiceImpl(NovelInfoRepository novelInfoRepository) {
+        this.novelInfoRepository = novelInfoRepository;
+    }
 
     /**
      * 根据 ID 查找对应的小说信息
@@ -40,7 +44,11 @@ public class NovelServiceImpl implements NovelService {
         Optional<NovelInfo> oldNovelInfo = novelInfoRepository.findById(novelInfo.getId());
 
         if (oldNovelInfo.isPresent()) {
-            return oldNovelInfo.get();
+            // 更新 update_date
+            NovelInfo novel = oldNovelInfo.get();
+            novel.setUpdateTime(new Date());
+            novelInfoRepository.save(novel);
+            return novel;
         }
 
         return novelInfoRepository.save(novelInfo);

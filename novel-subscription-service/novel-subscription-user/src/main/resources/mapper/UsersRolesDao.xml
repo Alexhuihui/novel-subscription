@@ -42,6 +42,23 @@
         </where>
     </select>
 
+    <!--查询所有角色信息-->
+    <select id="queryRoles" resultType="top.alexmmd.domain.UsersRolesVo">
+        SELECT
+            a.`id` AS userId,
+            a.`username` AS username,
+            a.`email` AS email,
+            b.`users_roles_id` AS usersRolesId,
+            c.`id` AS roleId,
+            c.`name` AS roleName
+        FROM
+            novel_subscription.`novel_user` AS a
+            LEFT JOIN novel_subscription.`users_roles` AS b ON b.`user_id` = a.`id`
+            LEFT JOIN novel_subscription.`role` AS c ON b.`role_id` = c.`id`
+        WHERE
+            a.`username` = #{username}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="usersRolesId" useGeneratedKeys="true">
         insert into novel_subscription.users_roles(user_id, role_id)

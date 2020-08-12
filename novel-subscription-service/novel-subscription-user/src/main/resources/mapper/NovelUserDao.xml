@@ -54,6 +54,14 @@
         </where>
     </select>
 
+    <select id="findByUsername" resultType="top.alexmmd.domain.NovelUser">
+        select
+        id, username, password, email, create_time, update_time
+        from novel_subscription.novel_user
+        where
+            username = #{username}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into novel_subscription.novel_user(username, password, email, create_time, update_time)

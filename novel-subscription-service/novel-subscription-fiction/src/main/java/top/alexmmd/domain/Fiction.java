@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serializable;
+
 /**
  * 笔趣阁返回的小说信息
  *
@@ -14,7 +16,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Fiction {
+public class Fiction implements Serializable {
 
     private Long id;
 

@@ -38,6 +38,13 @@
         </where>
     </select>
 
+    <select id="queryByRoleName" resultType="top.alexmmd.domain.Role">
+        select
+          id, name
+        from novel_subscription.role
+        where name = #{name}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into novel_subscription.role(name)

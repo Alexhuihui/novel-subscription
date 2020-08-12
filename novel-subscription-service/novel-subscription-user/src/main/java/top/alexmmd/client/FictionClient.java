@@ -4,6 +4,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import top.alexmmd.domain.Fiction;
 import top.alexmmd.domain.NovelInfo;
+import top.alexmmd.domain.RespEntity;
+import top.alexmmd.interceptor.FeignInterceptor;
 
 import java.util.List;
 
@@ -13,7 +15,8 @@ import java.util.List;
  * @author 汪永晖
  */
 @FeignClient(value = "novel-subscription-fiction",
-        fallback = FictionClientHystrix.class)
+        fallback = FictionClientHystrix.class,
+        configuration = FeignInterceptor.class)
 public interface FictionClient {
 
     /**
@@ -32,9 +35,9 @@ public interface FictionClient {
      * @param keyword
      * @return
      */
-    @RequestMapping(value = "/novel-subscription-fiction/fiction/search",
-            method = RequestMethod.GET)
-    List<Fiction> getFictions(@RequestParam("keyword") String keyword);
+//    @RequestMapping(value = "/novel-subscription-fiction/fiction/search",
+//            method = RequestMethod.GET)
+//    List<Fiction> getFictions(@RequestParam("keyword") String keyword);
 
     /**
      * 从数据库中根据 novel_id 来获取图书详情

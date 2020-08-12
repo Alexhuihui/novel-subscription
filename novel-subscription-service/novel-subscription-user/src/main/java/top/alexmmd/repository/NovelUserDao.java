@@ -61,4 +61,6 @@ public interface NovelUserDao {
      * @return 影响行数
      */
     int deleteById(Long id);
+
+    NovelUser findByUsername(String username);
 }

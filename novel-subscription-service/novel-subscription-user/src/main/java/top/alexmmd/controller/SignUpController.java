@@ -13,6 +13,8 @@ import top.alexmmd.service.NovelUserService;
 import top.alexmmd.service.SignUpService;
 
 /**
+ * 普通用户注册(所有人都能访问)
+ *
  * @author 汪永晖
  */
 @RestController
@@ -20,11 +22,14 @@ import top.alexmmd.service.SignUpService;
 @Slf4j
 public class SignUpController {
 
-    @Autowired
-    private SignUpService signUpService;
+    private final SignUpService signUpService;
 
-    @Autowired
-    private NovelUserService novelUserService;
+    private final NovelUserService novelUserService;
+
+    public SignUpController(SignUpService signUpService, NovelUserService novelUserService) {
+        this.signUpService = signUpService;
+        this.novelUserService = novelUserService;
+    }
 
     /**
      * 注册新用户

@@ -11,6 +11,8 @@ import top.alexmmd.service.NovelUserFictionService;
 import java.util.List;
 
 /**
+ * 管理员功能（需要ADMIN角色才能访问）
+ *
  * @author 汪永晖
  */
 @RestController
@@ -26,20 +28,6 @@ public class UserController {
 
     @Autowired
     private NovelUserFictionService novelUserFictionService;
-
-    /**
-     * 测试用
-     *
-     * @return
-     */
-    @GetMapping("/test")
-    public String test() {
-//        log.info(mailClient.sendTextMail(new MailInfo("2930807240@qq.com", "Test SendText Mail", "This is a test mail, don't need reply")).toString());
-        log.info(fictionClient.findNovel(36681L).toString());
-        log.info(fictionClient.findFiction(34197L).toString());
-        log.info(fictionClient.getFictions("斗罗大陆").toString());
-        return "ok";
-    }
 
     /**
      * 新增用户
@@ -73,4 +61,6 @@ public class UserController {
     public RespEntity selectNovelUserFiction(@PathVariable("id") Long id) {
         return novelUserFictionService.selectNovelUserFiction(id);
     }
+
+
 }

@@ -6,8 +6,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.alexmmd.domain.ChapterList;
 import top.alexmmd.domain.Fiction;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -22,6 +24,8 @@ import java.util.regex.Pattern;
 public class FictionParse {
 
     private static Logger logger = LoggerFactory.getLogger(FictionParse.class);
+
+    private static final String BASE_URL = "https://www.biquge.com.cn";
 
     /**
      * 解析笔趣阁搜索结果页面
@@ -113,5 +117,51 @@ public class FictionParse {
         fiction.setLatestChapter(latestChapter);
 
         return fiction;
+    }
+
+    /**
+     * 解析笔趣阁图书详情页面, 获取章节目录
+     *
+     * @param html service层传来的html页面
+     * @return Fiction
+     */
+    public static List<ChapterList> parseChapterList(String html) {
+        Document document = Jsoup.parse(html);
+        Elements elements = document.getElementsByTag("dd");
+        List<ChapterList> chapterLists = new ArrayList<>();
+        for (Element element : elements) {
+            String chapterName = element.select("a").text();
+            String attr = element.select("a").attr("href");
+            String chapterUrl = BASE_URL + attr;
+            String pattern = "\\d{3,}";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(attr);
+            List<Long> groups = new ArrayList<>();
+            while (m.find()) {
+                groups.add(Long.valueOf(m.group()));
+            }
+            Long fictionId = groups.get(0);
+            Long chapterId = groups.get(1);
+            ChapterList chapterList = ChapterList.builder()
+                    .chapterId(chapterId)
+                    .chapterName(chapterName)
+                    .chapterUrl(chapterUrl)
+                    .fictionId(fictionId)
+                    .build();
+            chapterLists.add(chapterList);
+        }
+        return chapterLists;
+    }
+
+    /**
+     * 解析章节具体内容
+     *
+     * @param html
+     * @return
+     */
+    public static String parseChapterContent(String html) {
+        Document document = Jsoup.parse(html);
+        Element element = document.select("div#content").first();
+        return element.text();
     }
 }
