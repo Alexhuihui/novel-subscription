@@ -4,10 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import top.alexmmd.domain.ChapterList;
 import top.alexmmd.domain.Fiction;
@@ -21,6 +24,8 @@ import top.alexmmd.util.http.HTTPUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 /**
@@ -35,6 +40,7 @@ public class FictionServiceImpl implements FictionService {
     private final String URL_SEARCH = "https://www.biquge.com.cn/search.php";
 
     //注入当前对象的代理对象
+    @Lazy
     @Autowired
     private FictionServiceImpl _this;
 
@@ -145,14 +151,17 @@ public class FictionServiceImpl implements FictionService {
         if (chapterList == null) {
             return new RespEntity(500, "暂时没有此章节内容");
         }
+
         int count = chapterLists.indexOf(chapterList);
         if ((count - 1) >= 0) {
             ChapterList last = chapterLists.get(count - 1);
             chapterList.setLast(last);
+            _this.asyncCacheChapterContent(last.getFictionId(), last.getChapterId());
         }
         if ((count + 1) < chapterLists.size()) {
             ChapterList next = chapterLists.get(count + 1);
             chapterList.setNext(next);
+            _this.asyncCacheChapterContent(next.getFictionId(), next.getChapterId());
         }
 
         return new RespEntity(100, "成功查询章节具体内容", chapterList);
@@ -167,7 +176,50 @@ public class FictionServiceImpl implements FictionService {
      */
     @Cacheable(value = "chapterContent", key = "#novelId + '::' + #chapterId")
     public ChapterList cacheChapterContent(Long novelId, Long chapterId) {
-        log.info("获取图书 -> {} 的章节 -> {} 的具体内容", novelId, chapterId);
+        log.info("{} -> 线程，获取图书 -> {} 的章节 -> {} 的具体内容", Thread.currentThread().getName(), novelId, chapterId);
+        // 查询所有章节目录
+        List<ChapterList> chapterLists = (List<ChapterList>) _this.getChapterList(novelId).getData();
+        List<ChapterList> chapters = chapterLists.stream()
+                .filter(c -> {
+                    if (chapterId.equals(c.getChapterId()) && novelId.equals(c.getFictionId())) {
+                        return true;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+        if (chapters != null && chapters.isEmpty()) {
+            return null;
+        }
+        ChapterList chapterList = chapters.get(0);
+
+        //拼装URL，加上ID
+        String requestUrl = URL_ID + novelId.toString() + "/" + chapterId.toString() + ".html";
+
+        //调用HTTPUtils去获取HTML页面
+        String html = null;
+        try {
+            html = HTTPUtils.doGet(requestUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //把html交给parse去解析
+        String chapterContent = FictionParse.parseChapterContent(html);
+        chapterList.setChapterContent(chapterContent);
+        return chapterList;
+    }
+
+    /**
+     * 异步缓存获取的章节具体内容
+     *
+     * @param novelId
+     * @param chapterId
+     * @return
+     */
+    @Async("asyncTaskExecutor")
+    @Cacheable(value = "chapterContent", key = "#novelId + '::' + #chapterId")
+    public ChapterList asyncCacheChapterContent(Long novelId, Long chapterId) {
+        log.info("{} -> 线程，获取图书 -> {} 的章节 -> {} 的具体内容", Thread.currentThread().getName(), novelId, chapterId);
         // 查询所有章节目录
         List<ChapterList> chapterLists = (List<ChapterList>) _this.getChapterList(novelId).getData();
         List<ChapterList> chapters = chapterLists.stream()
