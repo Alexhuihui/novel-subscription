@@ -3,6 +3,7 @@ package top.alexmmd.spider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -162,6 +163,6 @@ public class FictionParse {
     public static String parseChapterContent(String html) {
         Document document = Jsoup.parse(html);
         Element element = document.select("div#content").first();
-        return element.text();
+        return element.html();
     }
 }

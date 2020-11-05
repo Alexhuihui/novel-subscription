@@ -12,6 +12,7 @@
         <module>novel-subscription-service</module>
         <module>novel-subscription-zuul</module>
         <module>auth-server</module>
+        <module>file-center</module>
     </modules>
 
     <!--项目的打包类型，即项目的发布形式，默认为jar 对于聚合项目的父模块来说，必须指定为pom-->

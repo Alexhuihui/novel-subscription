@@ -24,6 +24,7 @@ public class ClearRedisCache {
      * 每天凌晨3点清除redis缓存的小说章节信息
      */
     @Scheduled(cron = "0 0 3 * * ?")
+//    @Scheduled(cron = "0/1 * * * * ?")
     public void clear() {
         log.info("——————————clear start at {} ——————————", new Date());
         String test = stringRedisTemplate.opsForValue().get("chapterContent::45624::342733");
