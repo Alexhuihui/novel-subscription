@@ -1,9 +1,7 @@
 package top.alexmmd.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -17,6 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class NovelUser {
 
     // 数据表主键
@@ -28,6 +27,7 @@ public class NovelUser {
 
     // password
     @NotBlank(message = "密码不能为空")
+    @JsonIgnore
     private String password;
 
     // email

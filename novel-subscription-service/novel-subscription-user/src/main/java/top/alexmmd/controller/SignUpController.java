@@ -38,23 +38,7 @@ public class SignUpController {
      */
     @PostMapping("/record")
     public RespEntity signUp(@RequestBody @Validated NovelUser user) {
-        if (usernameExist(user.getUsername())) {
-            return new RespEntity(500, "该用户名已经被使用");
-        }
         return signUpService.signUp(user);
-    }
-
-    /**
-     * 判断用户名是否被使用
-     *
-     * @param userName
-     * @return true -> exist ; false -> notExist
-     */
-    private boolean usernameExist(String userName) {
-        if (null == novelUserService.findByUsername(userName)) {
-            return false;
-        }
-        return true;
     }
 
 }

@@ -37,13 +37,13 @@
                 and id = #{id}
             </if>
             <if test="username != null and username != ''">
-                and username = #{username}
+                and username LIKE CONCAT('%',#{username},'%')
             </if>
             <if test="password != null and password != ''">
                 and password = #{password}
             </if>
             <if test="email != null and email != ''">
-                and email = #{email}
+                and email LIKE CONCAT('%',#{email},'%')
             </if>
             <if test="createTime != null">
                 and create_time = #{createTime}
@@ -89,6 +89,29 @@
             </if>
         </set>
         where id = #{id}
+    </update>
+
+    <!--根据用户名修改用户数据-->
+    <update id="updateByUsername">
+        update novel_subscription.novel_user
+        <set>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+        </set>
+        where username = #{username}
     </update>
 
     <!--通过主键删除-->

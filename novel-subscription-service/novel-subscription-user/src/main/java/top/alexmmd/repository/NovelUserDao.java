@@ -2,6 +2,8 @@ package top.alexmmd.repository;
 
 import top.alexmmd.domain.NovelUser;
 import org.apache.ibatis.annotations.Param;
+import top.alexmmd.domain.RespEntity;
+
 import java.util.List;
 
 /**
@@ -24,7 +26,7 @@ public interface NovelUserDao {
      * 查询指定行数据
      *
      * @param offset 查询起始位置
-     * @param limit 查询条数
+     * @param limit  查询条数
      * @return 对象列表
      */
     List<NovelUser> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
@@ -63,4 +65,12 @@ public interface NovelUserDao {
     int deleteById(Long id);
 
     NovelUser findByUsername(String username);
+
+    /**
+     * 根据用户名修改用户数据
+     *
+     * @param build
+     * @return
+     */
+    int updateByUsername(NovelUser build);
 }
