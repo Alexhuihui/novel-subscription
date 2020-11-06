@@ -2,6 +2,7 @@ package top.alexmmd.repository;
 
 import org.apache.ibatis.annotations.Param;
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.vo.ItemsVo;
 
 import java.util.List;
 
@@ -79,4 +80,11 @@ public interface ItemsDao {
      */
     int deleteById(String id);
 
+    /**
+     * 根据 id 查询详情
+     *
+     * @param id
+     * @return
+     */
+    ItemsVo queryDetailById(String id);
 }

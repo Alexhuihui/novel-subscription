@@ -8,6 +8,7 @@ import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.CustomerPackage;
 import top.alexmmd.domain.bag.ItemsPackage;
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.vo.ItemsVo;
 import top.alexmmd.repository.NovelUserDao;
 import top.alexmmd.service.ItemsService;
 import top.alexmmd.service.MagazineAdminService;
@@ -126,13 +127,14 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     @Override
     public RespEntity deleteMagazine(String id) {
-        itemsService.deleteById(id);
         return itemsService.deleteById(id) ? new RespEntity(101, "删除成功") : new RespEntity(500, "删除失败");
     }
 
     @Override
     public RespEntity updateMagazine(Items items) {
-        return null;
+        items.setUpdateTime(new Date());
+        Items newItems = itemsService.update(items);
+        return new RespEntity(101, "修改成功", newItems);
     }
 
     @Override
@@ -142,6 +144,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     @Override
     public RespEntity queryMagazine(String id) {
+        ItemsVo itemsVo = itemsService.queryDetailById(id);
         return null;
     }
 

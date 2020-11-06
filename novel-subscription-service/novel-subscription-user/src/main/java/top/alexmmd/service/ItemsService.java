@@ -1,6 +1,7 @@
 package top.alexmmd.service;
 
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.vo.ItemsVo;
 
 import java.util.List;
 
@@ -53,4 +54,11 @@ public interface ItemsService {
      */
     boolean deleteById(String id);
 
+    /**
+     * 根据 id 查询详情
+     *
+     * @param id
+     * @return
+     */
+    ItemsVo queryDetailById(String id);
 }

@@ -2,6 +2,7 @@ package top.alexmmd.service.impl;
 
 import org.springframework.stereotype.Service;
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.vo.ItemsVo;
 import top.alexmmd.repository.ItemsDao;
 import top.alexmmd.service.ItemsService;
 
@@ -75,5 +76,16 @@ public class ItemsServiceImpl implements ItemsService {
     @Override
     public boolean deleteById(String id) {
         return this.itemsDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 根据 id 查询详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public ItemsVo queryDetailById(String id) {
+        return itemsDao.queryDetailById(id);
     }
 }
