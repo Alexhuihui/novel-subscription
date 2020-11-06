@@ -87,4 +87,48 @@ public class MagazineAdminController {
         return magazineAdminService.addMagazine(magazinePackage);
     }
 
+    /**
+     * 删除杂志
+     *
+     * @param id 用户id
+     * @return
+     */
+    @DeleteMapping("/deleteMagazine/{id}")
+    public RespEntity deleteMagazine(@PathVariable Integer id) {
+        return magazineAdminService.deleteMagazine(id);
+    }
+
+    /**
+     * 修改杂志
+     *
+     * @param magazinePackage
+     * @return
+     */
+    @PutMapping("/updateMagazine")
+    public RespEntity updateMagazine(@RequestBody MagazinePackage magazinePackage) {
+        return magazineAdminService.updateMagazine(magazinePackage);
+    }
+
+    /**
+     * 查询杂志详情
+     *
+     * @param id 用户id
+     * @return
+     */
+    @GetMapping("/queryMagazine/{id}")
+    public RespEntity queryMagazine(@PathVariable Integer id) {
+        return magazineAdminService.queryMagazine(id);
+    }
+
+    /**
+     * 模糊查询所有杂志
+     *
+     * @param magazinePackage
+     * @return
+     */
+    @GetMapping("/fuzzySearchMagazine")
+    public RespEntity fuzzySearchMagazine(@RequestBody MagazinePackage magazinePackage) {
+        return magazineAdminService.fuzzySearchMagazine(magazinePackage);
+    }
+
 }

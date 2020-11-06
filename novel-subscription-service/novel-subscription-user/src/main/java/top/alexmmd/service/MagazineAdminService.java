@@ -57,4 +57,12 @@ public interface MagazineAdminService {
      * @return
      */
     RespEntity addMagazine(MagazinePackage magazinePackage);
+
+    RespEntity deleteMagazine(Integer id);
+
+    RespEntity updateMagazine(MagazinePackage magazinePackage);
+
+    RespEntity fuzzySearchMagazine(MagazinePackage magazinePackage);
+
+    RespEntity queryMagazine(Integer id);
 }
