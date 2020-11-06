@@ -3,7 +3,8 @@ package top.alexmmd.service;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.CustomerPackage;
-import top.alexmmd.domain.bag.MagazinePackage;
+import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.entity.Items;
 
 /**
  * @author 汪永晖
@@ -56,13 +57,13 @@ public interface MagazineAdminService {
      * @param magazinePackage 杂志信息
      * @return
      */
-    RespEntity addMagazine(MagazinePackage magazinePackage);
+    RespEntity addMagazine(ItemsPackage magazinePackage);
 
-    RespEntity deleteMagazine(Integer id);
+    RespEntity deleteMagazine(String id);
 
-    RespEntity updateMagazine(MagazinePackage magazinePackage);
+    RespEntity updateMagazine(Items items);
 
-    RespEntity fuzzySearchMagazine(MagazinePackage magazinePackage);
+    RespEntity fuzzySearchMagazine(Items items);
 
-    RespEntity queryMagazine(Integer id);
+    RespEntity queryMagazine(String id);
 }

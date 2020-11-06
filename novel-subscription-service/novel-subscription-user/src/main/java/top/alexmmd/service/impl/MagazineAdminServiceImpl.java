@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.CustomerPackage;
-import top.alexmmd.domain.bag.MagazinePackage;
+import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.entity.Items;
 import top.alexmmd.repository.NovelUserDao;
+import top.alexmmd.service.ItemsService;
 import top.alexmmd.service.MagazineAdminService;
 import top.alexmmd.service.SignUpService;
 
@@ -27,9 +29,12 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     private final SignUpService signUpService;
 
-    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao) {
+    private final ItemsService itemsService;
+
+    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao, ItemsService itemsService) {
         this.signUpService = signUpService;
         this.novelUserDao = novelUserDao;
+        this.itemsService = itemsService;
     }
 
     /**
@@ -105,7 +110,40 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
      * @return
      */
     @Override
-    public RespEntity addMagazine(MagazinePackage magazinePackage) {
+    public RespEntity addMagazine(ItemsPackage magazinePackage) {
+        Items items = itemsService.insert(Items.builder()
+                .catId(magazinePackage.getCatId())
+                .content(magazinePackage.getItemName())
+                .itemName(magazinePackage.getItemName())
+                .rootCatId(magazinePackage.getRootCatId())
+                .onOffStatus(1)
+                .sellCounts(0)
+                .createTime(new Date())
+                .updateTime(new Date())
+                .build());
+        return items != null ? new RespEntity(101, "新增成功", items) : new RespEntity(500, "新增失败");
+    }
+
+    @Override
+    public RespEntity deleteMagazine(String id) {
+        itemsService.deleteById(id);
+        return itemsService.deleteById(id) ? new RespEntity(101, "删除成功") : new RespEntity(500, "删除失败");
+    }
+
+    @Override
+    public RespEntity updateMagazine(Items items) {
         return null;
     }
+
+    @Override
+    public RespEntity fuzzySearchMagazine(Items items) {
+        return null;
+    }
+
+    @Override
+    public RespEntity queryMagazine(String id) {
+        return null;
+    }
+
+
 }

@@ -6,7 +6,8 @@ import top.alexmmd.annotation.AutoIdempotent;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.bag.CustomerPackage;
 import top.alexmmd.domain.RespEntity;
-import top.alexmmd.domain.bag.MagazinePackage;
+import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.entity.Items;
 import top.alexmmd.service.MagazineAdminService;
 
 /**
@@ -83,7 +84,7 @@ public class MagazineAdminController {
      */
     @PostMapping("/addMagazine")
     @AutoIdempotent
-    public RespEntity addMagazine(@RequestBody MagazinePackage magazinePackage) {
+    public RespEntity addMagazine(@RequestBody ItemsPackage magazinePackage) {
         return magazineAdminService.addMagazine(magazinePackage);
     }
 
@@ -94,19 +95,19 @@ public class MagazineAdminController {
      * @return
      */
     @DeleteMapping("/deleteMagazine/{id}")
-    public RespEntity deleteMagazine(@PathVariable Integer id) {
+    public RespEntity deleteMagazine(@PathVariable String id) {
         return magazineAdminService.deleteMagazine(id);
     }
 
     /**
      * 修改杂志
      *
-     * @param magazinePackage
+     * @param items
      * @return
      */
     @PutMapping("/updateMagazine")
-    public RespEntity updateMagazine(@RequestBody MagazinePackage magazinePackage) {
-        return magazineAdminService.updateMagazine(magazinePackage);
+    public RespEntity updateMagazine(@RequestBody Items items) {
+        return magazineAdminService.updateMagazine(items);
     }
 
     /**
@@ -116,19 +117,19 @@ public class MagazineAdminController {
      * @return
      */
     @GetMapping("/queryMagazine/{id}")
-    public RespEntity queryMagazine(@PathVariable Integer id) {
+    public RespEntity queryMagazine(@PathVariable String id) {
         return magazineAdminService.queryMagazine(id);
     }
 
     /**
      * 模糊查询所有杂志
      *
-     * @param magazinePackage
+     * @param items
      * @return
      */
     @GetMapping("/fuzzySearchMagazine")
-    public RespEntity fuzzySearchMagazine(@RequestBody MagazinePackage magazinePackage) {
-        return magazineAdminService.fuzzySearchMagazine(magazinePackage);
+    public RespEntity fuzzySearchMagazine(@RequestBody Items items) {
+        return magazineAdminService.fuzzySearchMagazine(items);
     }
 
 }
