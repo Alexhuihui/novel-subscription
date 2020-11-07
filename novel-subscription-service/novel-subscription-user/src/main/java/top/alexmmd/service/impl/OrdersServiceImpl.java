@@ -1,7 +1,10 @@
 package top.alexmmd.service.impl;
 
 import org.springframework.stereotype.Service;
+import top.alexmmd.domain.entity.OrderItems;
 import top.alexmmd.domain.entity.Orders;
+import top.alexmmd.domain.vo.OrderItemsVo;
+import top.alexmmd.domain.vo.OrdersVo;
 import top.alexmmd.repository.OrdersDao;
 import top.alexmmd.service.OrdersService;
 
@@ -75,5 +78,45 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public boolean deleteById(String id) {
         return this.ordersDao.deleteById(id) > 0;
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @param id 订单 id
+     * @return
+     */
+    @Override
+    public OrdersVo queryOrdersDetail(String id) {
+        // 查询订单表
+        OrdersVo ordersVo = ordersDao.queryOrdersDetail(id);
+
+        // 查询订单商品表
+        List<OrderItemsVo> orderItemsVoList = ordersDao.queryOrderItemsVoByOrderId(id);
+        ordersVo.setOrderItemsVoList(orderItemsVoList);
+        return ordersVo;
+    }
+
+    /**
+     * 模糊查询所有订单主表信息
+     *
+     * @param orders
+     * @return
+     */
+    @Override
+    public List<Orders> queryAllOrder(Orders orders) {
+        return ordersDao.queryAll(orders);
+    }
+
+    /**
+     * 查询所有购买了此商品的人
+     *
+     * @param itemId
+     * @return
+     */
+    @Override
+    public List<Orders> queryOrdersByItemId(String itemId) {
+        List<Orders> ordersList = ordersDao.queryOrdersByItemId(itemId);
+        return ordersList;
     }
 }

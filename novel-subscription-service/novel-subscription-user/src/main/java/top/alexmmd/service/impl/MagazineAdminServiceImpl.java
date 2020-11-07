@@ -1,28 +1,41 @@
 package top.alexmmd.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import top.alexmmd.MailEnum;
+import top.alexmmd.client.MailClient;
+import top.alexmmd.domain.MailInfo;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.CustomerPackage;
 import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.bag.OrdersPackage;
+import top.alexmmd.domain.bag.UpdateMailPackage;
 import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.entity.OrderItems;
+import top.alexmmd.domain.entity.Orders;
 import top.alexmmd.domain.vo.ItemsVo;
+import top.alexmmd.domain.vo.OrdersVo;
 import top.alexmmd.repository.NovelUserDao;
-import top.alexmmd.service.CategoryService;
-import top.alexmmd.service.ItemsService;
-import top.alexmmd.service.MagazineAdminService;
-import top.alexmmd.service.SignUpService;
+import top.alexmmd.service.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author 汪永晖
  */
 @Service
+@Slf4j
 public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     @Value("${admin.customer.password}")
@@ -36,11 +49,20 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     private final CategoryService categoryService;
 
-    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao, ItemsService itemsService, CategoryService categoryService) {
+    private final OrdersService ordersService;
+
+    private final OrderItemsService orderItemsService;
+
+    private final MailClient mailClient;
+
+    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao, ItemsService itemsService, CategoryService categoryService, OrdersService ordersService, OrderItemsService orderItemsService, MailClient mailClient) {
         this.signUpService = signUpService;
         this.novelUserDao = novelUserDao;
         this.itemsService = itemsService;
         this.categoryService = categoryService;
+        this.ordersService = ordersService;
+        this.orderItemsService = orderItemsService;
+        this.mailClient = mailClient;
     }
 
     /**
@@ -211,5 +233,163 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
         return new RespEntity(100, "成功查询查询所有类别", categoryList);
     }
 
+    /**
+     * 新增订单
+     *
+     * @param ordersPackage
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public RespEntity addOrder(OrdersPackage ordersPackage) {
+        List<OrderItems> entities = ordersPackage.getOrderItemsList();
+        Orders orders = Orders.builder()
+                .createTime(new Date())
+                .updateTime(new Date())
+                .isDelete(0)
+                .payMethod(ordersPackage.getPayMethod())
+                .postAmount(ordersPackage.getPostAmount())
+                .realPayAmount(ordersPackage.getRealPayAmount())
+                .receiverAddress(ordersPackage.getReceiverAddress())
+                .receiverMobile(ordersPackage.getReceiverMobile())
+                .receiverName(ordersPackage.getReceiverName())
+                .totalAmount(ordersPackage.getTotalAmount())
+                .userId(ordersPackage.getUserId())
+                .build();
+        ordersService.insert(orders);
+        for (OrderItems orderItem : entities) {
+            orderItem.setOrderId(orders.getId());
+        }
+        orderItemsService.insertBatch(entities);
+        return new RespEntity(101, "成功新增订单");
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public RespEntity deleteOrder(String id) {
+        orderItemsService.deleteByOrdersId(id);
+        ordersService.deleteById(id);
+        return new RespEntity(100, "订单删除成功");
+    }
+
+    /**
+     * 修改订单
+     *
+     * @param ordersPackage
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public RespEntity updateOrder(OrdersPackage ordersPackage) {
+        List<OrderItems> entities = ordersPackage.getOrderItemsList();
+        Orders orders = Orders.builder()
+                .createTime(new Date())
+                .updateTime(new Date())
+                .isDelete(0)
+                .payMethod(ordersPackage.getPayMethod())
+                .postAmount(ordersPackage.getPostAmount())
+                .realPayAmount(ordersPackage.getRealPayAmount())
+                .receiverAddress(ordersPackage.getReceiverAddress())
+                .receiverMobile(ordersPackage.getReceiverMobile())
+                .receiverName(ordersPackage.getReceiverName())
+                .totalAmount(ordersPackage.getTotalAmount())
+                .userId(ordersPackage.getUserId())
+                .id(ordersPackage.getId())
+                .build();
+        ordersService.update(orders);
+        orderItemsService.deleteByOrdersId(orders.getId());
+        for (OrderItems orderItem : entities) {
+            orderItem.setOrderId(orders.getId());
+        }
+        orderItemsService.insertBatch(entities);
+        return new RespEntity(101, "成功修改订单");
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @param id 订单 id
+     * @return
+     */
+    @Override
+    public RespEntity queryOrder(String id) {
+        OrdersVo ordersVo = ordersService.queryOrdersDetail(id);
+        return new RespEntity(100, "成功查询订单详情", ordersVo);
+    }
+
+    /**
+     * 模糊查询所有订单主表信息
+     *
+     * @param orders
+     * @return
+     */
+    @Override
+    public RespEntity queryAllOrder(Orders orders) {
+        List<Orders> ordersList = ordersService.queryAllOrder(orders);
+        return new RespEntity(100, "成功查询所有订单主表信息", ordersList);
+    }
+
+    /**
+     * 发送更新邮件
+     *
+     * @param updateMailPackage
+     * @return
+     */
+    @Override
+    public RespEntity sendUpdateMail(UpdateMailPackage updateMailPackage) {
+        String itemId = updateMailPackage.getItemId();
+        String updateContent = updateMailPackage.getUpdateContent();
+        String itemName = itemsService.queryById(itemId).getItemName();
+
+        // 查询所有购买了此商品(有效期内)的人
+        List<Orders> ordersList = ordersService.queryOrdersByItemId(itemId)
+                .stream()
+                .filter(orders -> {
+                    Date startDate = orders.getCreateTime();
+                    return this.isInvalid(startDate);
+                })
+                .collect(Collectors.toList());
+        List<Integer> userIdList = ordersList.stream().map(Orders::getUserId).collect(Collectors.toList());
+        log.info("需要给这些客户发送邮件 -> {}", userIdList);
+        for (Integer userId : userIdList) {
+            // 查询客户资料
+            NovelUser novelUser = novelUserDao.queryById(Long.valueOf(userId));
+            log.info("客户详细信息 -> {}", novelUser);
+            MailInfo mailInfo = new MailInfo();
+            mailInfo.setContent(String.format(MailEnum.MAGAZINE.getContent(), novelUser.getUsername(), updateContent));
+            mailInfo.setTitle(itemName + "更新");
+            mailInfo.setToAddr(novelUser.getEmail());
+            mailClient.sendHtmlMail(mailInfo);
+        }
+        return new RespEntity(101, "成功发送更新邮件");
+    }
+
+    /**
+     * 判断购买的商品是否处于有效期内
+     *
+     * @return
+     */
+    private boolean isInvalid(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String stringDate = sdf.format(date);//date-->String
+        log.info("开始购买的时间是 -> {}", stringDate);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR, 1); //把日期往后增加一年
+        Date deadlineDate = calendar.getTime();
+        stringDate = sdf.format(deadlineDate);//date-->String
+        log.info("服务截止时间是 -> {}", stringDate);
+
+        Date nowDate = new Date();
+        log.info("现在的时间是 -> {}", sdf.format(nowDate));
+        return deadlineDate.compareTo(nowDate) >= 0;
+    }
 
 }

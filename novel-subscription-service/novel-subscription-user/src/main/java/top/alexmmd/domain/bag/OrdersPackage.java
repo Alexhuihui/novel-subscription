@@ -1,23 +1,23 @@
-package top.alexmmd.domain.entity;
+package top.alexmmd.domain.bag;
 
 import lombok.*;
+import top.alexmmd.domain.entity.OrderItems;
 
-import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
- * 订单表;(Orders)实体类
+ * 订单前端传输对象
  *
  * @author 汪永晖
- * @since 2020-11-06 14:26:58
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @ToString
 @Builder
-public class Orders implements Serializable {
-    private static final long serialVersionUID = -48077349218254388L;
+public class OrdersPackage {
+
     /**
      * 订单主键;同时也是订单编号
      */
@@ -54,17 +54,6 @@ public class Orders implements Serializable {
      * 支付方式
      */
     private Integer payMethod;
-    /**
-     * 逻辑删除状态;1: 删除 0:未删除
-     */
-    private Integer isDelete;
-    /**
-     * 创建时间（成交时间）
-     */
-    private Date createTime;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
 
+    private List<OrderItems> orderItemsList;
 }

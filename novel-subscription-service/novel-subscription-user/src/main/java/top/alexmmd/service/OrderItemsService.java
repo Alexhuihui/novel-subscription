@@ -1,5 +1,6 @@
 package top.alexmmd.service;
 
+import org.apache.ibatis.annotations.Param;
 import top.alexmmd.domain.entity.OrderItems;
 
 import java.util.List;
@@ -53,4 +54,19 @@ public interface OrderItemsService {
      */
     boolean deleteById(String id);
 
+    /**
+     * 批量插入
+     *
+     * @param entities
+     * @return
+     */
+    int insertBatch(List<OrderItems> entities);
+
+    /**
+     * 根据订单 id 删除订单商品
+     *
+     * @param orderId 订单 id
+     * @return
+     */
+    int deleteByOrdersId(String orderId);
 }

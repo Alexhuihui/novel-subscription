@@ -33,4 +33,17 @@ public class MailController {
 
         return new CommonReply("200", "Mail has been send successful.");
     }
+
+    /**
+     * 发送 Html 邮件
+     *
+     * @param mailInfo 邮件基本内容
+     */
+    @PostMapping("/sendHtml")
+    public CommonReply sendHtmlMail(@RequestBody MailInfo mailInfo) {
+
+        mailService.sendHtmlMail(mailInfo.getToAddr(), mailInfo.getTitle(), mailInfo.getContent());
+
+        return new CommonReply("200", "Mail has been send successful.");
+    }
 }

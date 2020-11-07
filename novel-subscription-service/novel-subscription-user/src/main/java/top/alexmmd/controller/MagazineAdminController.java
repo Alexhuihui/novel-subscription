@@ -7,8 +7,11 @@ import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.bag.CustomerPackage;
 import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.bag.OrdersPackage;
+import top.alexmmd.domain.bag.UpdateMailPackage;
 import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
+import top.alexmmd.domain.entity.Orders;
 import top.alexmmd.service.MagazineAdminService;
 
 /**
@@ -185,6 +188,71 @@ public class MagazineAdminController {
     @GetMapping("/queryAllCategory")
     public RespEntity queryAllCategory(@RequestBody Category category) {
         return magazineAdminService.queryAllCategory(category);
+    }
+
+    /**
+     * 新增订单
+     *
+     * @return
+     */
+    @PostMapping("/addOrder")
+    @AutoIdempotent
+    public RespEntity addOrder(@RequestBody OrdersPackage ordersPackage) {
+        return magazineAdminService.addOrder(ordersPackage);
+    }
+
+    /**
+     * 删除订单
+     *
+     * @param id 订单id
+     * @return
+     */
+    @DeleteMapping("/deleteOrder/{id}")
+    public RespEntity deleteOrder(@PathVariable String id) {
+        return magazineAdminService.deleteOrder(id);
+    }
+
+    /**
+     * 修改订单
+     *
+     * @param ordersPackage
+     * @return
+     */
+    @PutMapping("/updateOrder")
+    public RespEntity updateOrder(@RequestBody OrdersPackage ordersPackage) {
+        return magazineAdminService.updateOrder(ordersPackage);
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @param id 类别id
+     * @return
+     */
+    @GetMapping("/queryOrder/{id}")
+    public RespEntity queryOrder(@PathVariable String id) {
+        return magazineAdminService.queryOrder(id);
+    }
+
+    /**
+     * 模糊查询所有订单主表信息
+     *
+     * @return
+     */
+    @GetMapping("/queryAllOrder")
+    public RespEntity queryAllOrder(@RequestBody Orders orders) {
+        return magazineAdminService.queryAllOrder(orders);
+    }
+
+    /**
+     * 发送更新邮件
+     *
+     * @param updateMailPackage
+     * @return
+     */
+    @PostMapping("/sendUpdateMail")
+    public RespEntity sendUpdateMail(@RequestBody UpdateMailPackage updateMailPackage) {
+        return magazineAdminService.sendUpdateMail(updateMailPackage);
     }
 
 }

@@ -4,7 +4,7 @@
 
     <resultMap type="top.alexmmd.domain.entity.Orders" id="OrdersMap">
         <result property="id" column="id" jdbcType="VARCHAR"/>
-        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
         <result property="receiverMobile" column="receiver_mobile" jdbcType="VARCHAR"/>
         <result property="receiverAddress" column="receiver_address" jdbcType="VARCHAR"/>
@@ -77,6 +77,77 @@
                 and update_time = #{updateTime}
             </if>
         </where>
+        order by create_time desc
+    </select>
+
+    <!--查询订单详情-->
+    <select id="queryOrdersDetail" resultType="top.alexmmd.domain.vo.OrdersVo">
+        SELECT
+            a.`id` AS id,
+            a.`user_id` AS userId,
+            a.`receiver_name` AS receiverName,
+            a.`receiver_mobile` AS receiverMobile,
+            a.`receiver_address` AS receiverAddress,
+            a.`total_amount` AS totalAmount,
+            a.`real_pay_amount` AS realPayAmount,
+            a.`post_amount` AS postAmount,
+            a.`pay_method` AS payMethod,
+            a.`is_delete` AS isDelete,
+            a.`create_time` AS createTime,
+            a.`update_time` AS updateTime
+        FROM
+            novel_subscription.`orders` AS a
+        WHERE
+            a.`id` = #{id}
+    </select>
+
+    <!--查询订单商品表-->
+    <select id="queryOrderItemsVoByOrderId" resultType="top.alexmmd.domain.vo.OrderItemsVo">
+        SELECT
+            a.`id` AS id,
+            a.`order_id` AS orderId,
+            a.`item_id` AS itemId,
+            a.`item_name` AS itemName,
+            a.`price` AS price,
+            a.`buy_counts` AS buyCounts,
+            b.`cat_id` AS catId,
+            b.`root_cat_id` AS rootCatId,
+            b.`sell_counts` AS sellCounts,
+            b.`on_off_status` AS onOffStatus,
+            b.`content` AS content,
+            b.`create_time` AS createTime,
+            b.`update_time` AS updateTime,
+            c.`name` AS catName,
+            d.`name` AS rootCatName
+        FROM
+            novel_subscription.`order_items` AS a
+            LEFT JOIN novel_subscription.`items` AS b ON a.`item_id` = b.`id`
+            LEFT JOIN novel_subscription.`category` AS b ON b.`id` = a.`cat_id`
+            LEFT JOIN novel_subscription.`category` AS c ON c.`id` = a.`root_cat_id`
+        WHERE
+            a.`order_id` = #{id}
+    </select>
+
+    <!--查询所有购买了此商品的人-->
+    <select id="queryOrdersByItemId" resultType="top.alexmmd.domain.entity.Orders">
+        SELECT
+            a.`id` AS id,
+            a.`user_id` AS userId,
+            a.`receiver_name` AS receiverName,
+            a.`receiver_mobile` AS receiverMobile,
+            a.`receiver_address` AS receiverAddress,
+            a.`total_amount` AS totalAmount,
+            a.`real_pay_amount` AS realPayAmount,
+            a.`post_amount` AS postAmount,
+            a.`pay_method` AS payMethod,
+            a.`is_delete` AS isDelete,
+            a.`create_time` AS createTime,
+            a.`update_time` AS updateTime
+        FROM
+            novel_subscription.`order_items` AS b
+            LEFT JOIN novel_subscription.`orders` AS a ON a.`id` = b.`order_id`
+        WHERE
+            b.`item_id` = #{itemId}
     </select>
 
     <!--新增所有列-->
@@ -116,7 +187,7 @@
     <update id="update">
         update novel_subscription.orders
         <set>
-            <if test="userId != null and userId != ''">
+            <if test="userId != null">
                 user_id = #{userId},
             </if>
             <if test="receiverName != null and receiverName != ''">

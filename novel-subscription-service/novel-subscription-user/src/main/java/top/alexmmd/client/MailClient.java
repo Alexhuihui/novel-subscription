@@ -26,4 +26,13 @@ public interface MailClient {
     @RequestMapping(value = "/novel-subscription-mail/mail/sendText",
             method = RequestMethod.POST)
     CommonReply sendTextMail(@RequestBody MailInfo mailInfo);
+
+    /**
+     * 发送 Html 邮件
+     *
+     * @param mailInfo 邮件基本内容
+     */
+    @RequestMapping(value = "/novel-subscription-mail/mail/sendHtml",
+            method = RequestMethod.POST)
+    CommonReply sendHtmlMail(@RequestBody MailInfo mailInfo);
 }

@@ -2,6 +2,8 @@ package top.alexmmd.repository;
 
 import org.apache.ibatis.annotations.Param;
 import top.alexmmd.domain.entity.Orders;
+import top.alexmmd.domain.vo.OrderItemsVo;
+import top.alexmmd.domain.vo.OrdersVo;
 
 import java.util.List;
 
@@ -79,4 +81,27 @@ public interface OrdersDao {
      */
     int deleteById(String id);
 
+    /**
+     * 查询订单详情
+     *
+     * @param id
+     * @return
+     */
+    OrdersVo queryOrdersDetail(String id);
+
+    /**
+     * 查询订单商品表
+     *
+     * @param id
+     * @return
+     */
+    List<OrderItemsVo> queryOrderItemsVoByOrderId(String id);
+
+    /**
+     * 查询所有购买了此商品的人
+     *
+     * @param itemId
+     * @return
+     */
+    List<Orders> queryOrdersByItemId(String itemId);
 }

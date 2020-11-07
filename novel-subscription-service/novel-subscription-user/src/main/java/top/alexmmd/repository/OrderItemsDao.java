@@ -79,4 +79,11 @@ public interface OrderItemsDao {
      */
     int deleteById(String id);
 
+    /**
+     * 根据订单 id 删除订单商品
+     *
+     * @param orderId
+     * @return
+     */
+    int deleteByOrdersId(String orderId);
 }

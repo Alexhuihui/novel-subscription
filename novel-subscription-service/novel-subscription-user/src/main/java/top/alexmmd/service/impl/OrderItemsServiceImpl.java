@@ -76,4 +76,26 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     public boolean deleteById(String id) {
         return this.orderItemsDao.deleteById(id) > 0;
     }
+
+    /**
+     * 批量插入
+     *
+     * @param entities
+     * @return
+     */
+    @Override
+    public int insertBatch(List<OrderItems> entities) {
+        return orderItemsDao.insertBatch(entities);
+    }
+
+    /**
+     * 根据订单 id 删除订单商品
+     *
+     * @param orderId 订单 id
+     * @return
+     */
+    @Override
+    public int deleteByOrdersId(String orderId) {
+        return orderItemsDao.deleteByOrdersId(orderId);
+    }
 }

@@ -1,6 +1,7 @@
 package top.alexmmd.service;
 
 import top.alexmmd.domain.entity.Orders;
+import top.alexmmd.domain.vo.OrdersVo;
 
 import java.util.List;
 
@@ -53,4 +54,27 @@ public interface OrdersService {
      */
     boolean deleteById(String id);
 
+    /**
+     * 查询订单详情
+     *
+     * @param id 订单 id
+     * @return
+     */
+    OrdersVo queryOrdersDetail(String id);
+
+    /**
+     * 模糊查询所有订单主表信息
+     *
+     * @param orders
+     * @return
+     */
+    List<Orders> queryAllOrder(Orders orders);
+
+    /**
+     * 查询所有购买了此商品的人
+     *
+     * @param itemId
+     * @return
+     */
+    List<Orders> queryOrdersByItemId(String itemId);
 }
