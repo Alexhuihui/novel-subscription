@@ -21,7 +21,7 @@
     <select id="queryById" resultMap="OrdersMap">
         select
           id, user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time
-        from magazine.orders
+        from novel_subscription.orders
         where id = #{id}
     </select>
 
@@ -29,7 +29,7 @@
     <select id="queryAllByLimit" resultMap="OrdersMap">
         select
           id, user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time
-        from magazine.orders
+        from novel_subscription.orders
         limit #{offset}, #{limit}
     </select>
 
@@ -38,7 +38,7 @@
         select
         id, user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount,
         pay_method, is_delete, create_time, update_time
-        from magazine.orders
+        from novel_subscription.orders
         <where>
             <if test="id != null and id != ''">
                 and id = #{id}
@@ -81,12 +81,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time)
+        insert into novel_subscription.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time)
         values (#{userId}, #{receiverName}, #{receiverMobile}, #{receiverAddress}, #{totalAmount}, #{realPayAmount}, #{postAmount}, #{payMethod}, #{isDelete}, #{createTime}, #{updateTime})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount,
+        insert into novel_subscription.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount,
         real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time)
         values
         <foreach collection="entities" item="entity" separator=",">
@@ -97,7 +97,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount,
+        insert into novel_subscription.orders(user_id, receiver_name, receiver_mobile, receiver_address, total_amount,
         real_pay_amount, post_amount, pay_method, is_delete, create_time, update_time)
         values
         <foreach collection="entities" item="entity" separator=",">
@@ -114,7 +114,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update magazine.orders
+        update novel_subscription.orders
         <set>
             <if test="userId != null and userId != ''">
                 user_id = #{userId},
@@ -155,7 +155,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from magazine.orders where id = #{id}
+        delete from novel_subscription.orders where id = #{id}
     </delete>
 
 </mapper>

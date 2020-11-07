@@ -145,7 +145,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
     @Override
     public RespEntity queryMagazine(String id) {
         ItemsVo itemsVo = itemsService.queryDetailById(id);
-        return null;
+        return new RespEntity(100, "成功查询商品详情", itemsVo);
     }
 
 

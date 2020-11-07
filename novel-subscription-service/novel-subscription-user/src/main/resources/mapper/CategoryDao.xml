@@ -17,7 +17,7 @@
     <select id="queryById" resultMap="CategoryMap">
         select
           id, name, type, father_id, logo, slogan, cat_image, bg_color
-        from magazine.category
+        from novel_subscription.category
         where id = #{id}
     </select>
 
@@ -25,7 +25,7 @@
     <select id="queryAllByLimit" resultMap="CategoryMap">
         select
           id, name, type, father_id, logo, slogan, cat_image, bg_color
-        from magazine.category
+        from novel_subscription.category
         limit #{offset}, #{limit}
     </select>
 
@@ -33,7 +33,7 @@
     <select id="queryAll" resultMap="CategoryMap">
         select
         id, name, type, father_id, logo, slogan, cat_image, bg_color
-        from magazine.category
+        from novel_subscription.category
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -64,12 +64,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.category(name, type, father_id, logo, slogan, cat_image, bg_color)
+        insert into novel_subscription.category(name, type, father_id, logo, slogan, cat_image, bg_color)
         values (#{name}, #{type}, #{fatherId}, #{logo}, #{slogan}, #{catImage}, #{bgColor})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.category(name, type, father_id, logo, slogan, cat_image, bg_color)
+        insert into novel_subscription.category(name, type, father_id, logo, slogan, cat_image, bg_color)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.name}, #{entity.type}, #{entity.fatherId}, #{entity.logo}, #{entity.slogan}, #{entity.catImage},
@@ -78,7 +78,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.category(name, type, father_id, logo, slogan, cat_image, bg_color)
+        insert into novel_subscription.category(name, type, father_id, logo, slogan, cat_image, bg_color)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.name}, #{entity.type}, #{entity.fatherId}, #{entity.logo}, #{entity.slogan}, #{entity.catImage},
@@ -91,7 +91,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update magazine.category
+        update novel_subscription.category
         <set>
             <if test="name != null and name != ''">
                 name = #{name},
@@ -120,7 +120,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from magazine.category where id = #{id}
+        delete from novel_subscription.category where id = #{id}
     </delete>
 
 </mapper>

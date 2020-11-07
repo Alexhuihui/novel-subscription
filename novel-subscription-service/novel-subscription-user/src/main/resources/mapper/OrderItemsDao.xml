@@ -15,7 +15,7 @@
     <select id="queryById" resultMap="OrderItemsMap">
         select
           id, order_id, item_id, item_name, price, buy_counts
-        from magazine.order_items
+        from novel_subscription.order_items
         where id = #{id}
     </select>
 
@@ -23,7 +23,7 @@
     <select id="queryAllByLimit" resultMap="OrderItemsMap">
         select
           id, order_id, item_id, item_name, price, buy_counts
-        from magazine.order_items
+        from novel_subscription.order_items
         limit #{offset}, #{limit}
     </select>
 
@@ -31,7 +31,7 @@
     <select id="queryAll" resultMap="OrderItemsMap">
         select
         id, order_id, item_id, item_name, price, buy_counts
-        from magazine.order_items
+        from novel_subscription.order_items
         <where>
             <if test="id != null and id != ''">
                 and id = #{id}
@@ -56,12 +56,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.order_items(order_id, item_id, item_name, price, buy_counts)
+        insert into novel_subscription.order_items(order_id, item_id, item_name, price, buy_counts)
         values (#{orderId}, #{itemId}, #{itemName}, #{price}, #{buyCounts})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.order_items(order_id, item_id, item_name, price, buy_counts)
+        insert into novel_subscription.order_items(order_id, item_id, item_name, price, buy_counts)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.orderId}, #{entity.itemId}, #{entity.itemName}, #{entity.price}, #{entity.buyCounts})
@@ -69,7 +69,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazine.order_items(order_id, item_id, item_name, price, buy_counts)
+        insert into novel_subscription.order_items(order_id, item_id, item_name, price, buy_counts)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.orderId}, #{entity.itemId}, #{entity.itemName}, #{entity.price}, #{entity.buyCounts})
@@ -81,7 +81,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update magazine.order_items
+        update novel_subscription.order_items
         <set>
             <if test="orderId != null and orderId != ''">
                 order_id = #{orderId},
@@ -104,7 +104,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from magazine.order_items where id = #{id}
+        delete from novel_subscription.order_items where id = #{id}
     </delete>
 
 </mapper>
