@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * (Role)表数据库访问层
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-04-07 16:14:50
  */
 public interface RoleDao {

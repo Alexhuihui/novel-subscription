@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表(Items)表服务实现类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:36:16
  */
 @Service("itemsService")
@@ -87,5 +87,16 @@ public class ItemsServiceImpl implements ItemsService {
     @Override
     public ItemsVo queryDetailById(String id) {
         return itemsDao.queryDetailById(id);
+    }
+
+    /**
+     * 模糊查询所有商品
+     *
+     * @param items
+     * @return
+     */
+    @Override
+    public List<ItemsVo> fuzzySearchMagazine(Items items) {
+        return itemsDao.fuzzySearchMagazine(items);
     }
 }

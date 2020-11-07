@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 用户订阅小说表(NovelUserFiction)表数据库访问层
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-06-20 12:50:44
  */
 public interface NovelUserFictionDao {

@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * (User)实体类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-06-04 15:25:35
  */
 @Data

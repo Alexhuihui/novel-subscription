@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 商品分类 (Category)表服务接口
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:36:14
  */
 public interface CategoryService {
@@ -29,6 +29,13 @@ public interface CategoryService {
      * @return 对象列表
      */
     List<Category> queryAllByLimit(int offset, int limit);
+
+    /**
+     * 查询所有类别
+     *
+     * @return
+     */
+    List<Category> queryAll(Category category);
 
     /**
      * 新增数据

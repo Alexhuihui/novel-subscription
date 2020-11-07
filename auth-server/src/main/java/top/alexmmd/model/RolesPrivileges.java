@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * (RolesPrivileges)实体类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-04-07 16:16:01
  */
 @Data

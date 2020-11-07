@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 订单商品关联表 (OrderItems)表服务实现类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:36:16
  */
 @Service("orderItemsService")

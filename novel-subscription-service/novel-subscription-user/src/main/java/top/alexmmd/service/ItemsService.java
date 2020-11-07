@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表(Items)表服务接口
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:36:15
  */
 public interface ItemsService {
@@ -61,4 +61,12 @@ public interface ItemsService {
      * @return
      */
     ItemsVo queryDetailById(String id);
+
+    /**
+     * 模糊查询所有商品
+     *
+     * @param items
+     * @return
+     */
+    List<ItemsVo> fuzzySearchMagazine(Items items);
 }

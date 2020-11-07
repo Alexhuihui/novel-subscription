@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 商品分类 (Category)表数据库访问层
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:27:47
  */
 public interface CategoryDao {

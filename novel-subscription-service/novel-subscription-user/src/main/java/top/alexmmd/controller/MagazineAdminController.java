@@ -7,6 +7,7 @@ import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.bag.CustomerPackage;
 import top.alexmmd.domain.RespEntity;
 import top.alexmmd.domain.bag.ItemsPackage;
+import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
 import top.alexmmd.service.MagazineAdminService;
 
@@ -130,6 +131,60 @@ public class MagazineAdminController {
     @GetMapping("/fuzzySearchMagazine")
     public RespEntity fuzzySearchMagazine(@RequestBody Items items) {
         return magazineAdminService.fuzzySearchMagazine(items);
+    }
+
+    /**
+     * 新增类别
+     *
+     * @return
+     */
+    @PostMapping("/addCategory")
+    @AutoIdempotent
+    public RespEntity addCategory(@RequestBody Category category) {
+        return magazineAdminService.addCategory(category);
+    }
+
+    /**
+     * 删除类别
+     *
+     * @param id 类别id
+     * @return
+     */
+    @DeleteMapping("/deleteCategory/{id}")
+    public RespEntity deleteCategory(@PathVariable Integer id) {
+        return magazineAdminService.deleteCategory(id);
+    }
+
+    /**
+     * 修改类别
+     *
+     * @param category
+     * @return
+     */
+    @PutMapping("/updateCategory")
+    public RespEntity updateCategory(@RequestBody Category category) {
+        return magazineAdminService.updateCategory(category);
+    }
+
+    /**
+     * 查询类别
+     *
+     * @param id 类别id
+     * @return
+     */
+    @GetMapping("/queryCategory/{id}")
+    public RespEntity queryCategory(@PathVariable Integer id) {
+        return magazineAdminService.queryCategory(id);
+    }
+
+    /**
+     * 查询所有类别
+     *
+     * @return
+     */
+    @GetMapping("/queryAllCategory")
+    public RespEntity queryAllCategory(@RequestBody Category category) {
+        return magazineAdminService.queryAllCategory(category);
     }
 
 }

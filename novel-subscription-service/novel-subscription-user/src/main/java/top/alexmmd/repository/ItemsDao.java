@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表(Items)表数据库访问层
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:27:49
  */
 public interface ItemsDao {
@@ -87,4 +87,12 @@ public interface ItemsDao {
      * @return
      */
     ItemsVo queryDetailById(String id);
+
+    /**
+     * 模糊查询所有商品
+     *
+     * @param items
+     * @return
+     */
+    List<ItemsVo> fuzzySearchMagazine(Items items);
 }

@@ -85,7 +85,51 @@
             LEFT JOIN novel_subscription.`category` AS b ON b.`id` = a.`cat_id`
             LEFT JOIN novel_subscription.`category` AS c ON c.`id` = a.`root_cat_id`
         WHERE
-            a.`id` = 1
+            a.`id` = #{id}
+    </select>
+
+    <!--模糊查询所有商品-->
+    <select id="fuzzySearchMagazine" resultType="top.alexmmd.domain.vo.ItemsVo">
+        SELECT
+            a.`id` AS id,
+            a.`item_name` AS itemName,
+            a.`cat_id` AS catId,
+            a.`root_cat_id` AS rootCatId,
+            a.`sell_counts` AS sellCounts,
+            a.`on_off_status` AS onOffStatus,
+            a.`content` AS content,
+            a.`create_time` AS createTime,
+            a.`update_time` AS updateTime,
+            b.`name` AS catName,
+            c.`name` AS rootCatName
+        FROM
+            novel_subscription.`items` AS a
+            LEFT JOIN novel_subscription.`category` AS b ON b.`id` = a.`cat_id`
+            LEFT JOIN novel_subscription.`category` AS c ON c.`id` = a.`root_cat_id`
+        <where>
+            <if test="id != null and id != ''">
+                and a.`id` = #{id}
+            </if>
+            <if test="itemName != null and itemName != ''">
+                and a.`item_name` LIKE CONCAT('%',#{itemName},'%')
+            </if>
+            <if test="catId != null">
+                and a.`cat_id` = #{catId}
+            </if>
+            <if test="rootCatId != null">
+                and a.`root_cat_id` = #{rootCatId}
+            </if>
+            <if test="sellCounts != null">
+                and a.`sell_counts` = #{sellCounts}
+            </if>
+            <if test="onOffStatus != null">
+                and a.`on_off_status` = #{onOffStatus}
+            </if>
+            <if test="content != null and content != ''">
+                and a.`content` LIKE CONCAT('%',#{content},'%')
+            </if>
+        </where>
+        order by a.`create_time` desc
     </select>
 
     <!--新增所有列-->
@@ -95,7 +139,8 @@
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into novel_subscription.items(item_name, cat_id, root_cat_id, sell_counts, on_off_status, content, create_time,
+        insert into novel_subscription.items(item_name, cat_id, root_cat_id, sell_counts, on_off_status, content,
+        create_time,
         update_time)
         values
         <foreach collection="entities" item="entity" separator=",">
@@ -105,7 +150,8 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into novel_subscription.items(item_name, cat_id, root_cat_id, sell_counts, on_off_status, content, create_time,
+        insert into novel_subscription.items(item_name, cat_id, root_cat_id, sell_counts, on_off_status, content,
+        create_time,
         update_time)
         values
         <foreach collection="entities" item="entity" separator=",">

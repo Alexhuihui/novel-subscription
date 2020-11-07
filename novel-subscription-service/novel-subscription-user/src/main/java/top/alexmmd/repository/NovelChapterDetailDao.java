@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * (NovelChapterDetail)表数据库访问层
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-06-20 12:50:44
  */
 public interface NovelChapterDetailDao {

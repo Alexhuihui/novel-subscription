@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表(Items)实体类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:26:58
  */
 @Data

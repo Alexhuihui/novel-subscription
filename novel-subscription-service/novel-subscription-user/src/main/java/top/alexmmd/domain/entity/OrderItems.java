@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 订单商品关联表 (OrderItems)实体类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:26:58
  */
 @Data

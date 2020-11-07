@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * 商品分类 (Category)实体类
  *
- * @author makejava
+ * @author 汪永晖
  * @since 2020-11-06 14:26:54
  */
 @Data
