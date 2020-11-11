@@ -1,13 +1,11 @@
 package top.alexmmd.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import top.alexmmd.MailEnum;
-import top.alexmmd.client.MailClient;
+import top.alexmmd.domain.MailEnum;
 import top.alexmmd.domain.MailInfo;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
@@ -23,6 +21,7 @@ import top.alexmmd.domain.vo.ItemsVo;
 import top.alexmmd.domain.vo.OrdersVo;
 import top.alexmmd.repository.NovelUserDao;
 import top.alexmmd.service.*;
+import top.alexmmd.util.MailUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -53,16 +52,16 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
 
     private final OrderItemsService orderItemsService;
 
-    private final MailClient mailClient;
+    private final MailUtil mailUtil;
 
-    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao, ItemsService itemsService, CategoryService categoryService, OrdersService ordersService, OrderItemsService orderItemsService, MailClient mailClient) {
+    public MagazineAdminServiceImpl(SignUpService signUpService, NovelUserDao novelUserDao, ItemsService itemsService, CategoryService categoryService, OrdersService ordersService, OrderItemsService orderItemsService, MailUtil mailUtil) {
         this.signUpService = signUpService;
         this.novelUserDao = novelUserDao;
         this.itemsService = itemsService;
         this.categoryService = categoryService;
         this.ordersService = ordersService;
         this.orderItemsService = orderItemsService;
-        this.mailClient = mailClient;
+        this.mailUtil = mailUtil;
     }
 
     /**
@@ -365,7 +364,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
             mailInfo.setContent(String.format(MailEnum.MAGAZINE.getContent(), novelUser.getUsername(), updateContent));
             mailInfo.setTitle(itemName + "更新");
             mailInfo.setToAddr(novelUser.getEmail());
-            mailClient.sendHtmlMail(mailInfo);
+            mailUtil.sendHtmlMail(mailInfo);
         }
         return new RespEntity(101, "成功发送更新邮件");
     }

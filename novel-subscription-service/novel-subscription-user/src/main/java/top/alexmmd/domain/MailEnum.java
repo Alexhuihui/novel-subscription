@@ -1,4 +1,4 @@
-package top.alexmmd;
+package top.alexmmd.domain;
 
 /**
  * @author 汪永晖
