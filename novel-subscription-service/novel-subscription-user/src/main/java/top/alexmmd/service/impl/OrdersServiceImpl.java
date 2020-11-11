@@ -29,7 +29,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return 实例对象
      */
     @Override
-    public Orders queryById(String id) {
+    public Orders queryById(Integer id) {
         return this.ordersDao.queryById(id);
     }
 
@@ -76,7 +76,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Integer id) {
         return this.ordersDao.deleteById(id) > 0;
     }
 
@@ -87,7 +87,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return
      */
     @Override
-    public OrdersVo queryOrdersDetail(String id) {
+    public OrdersVo queryOrdersDetail(Integer id) {
         // 查询订单表
         OrdersVo ordersVo = ordersDao.queryOrdersDetail(id);
 
@@ -115,7 +115,7 @@ public class OrdersServiceImpl implements OrdersService {
      * @return
      */
     @Override
-    public List<Orders> queryOrdersByItemId(String itemId) {
+    public List<Orders> queryOrdersByItemId(Integer itemId) {
         List<Orders> ordersList = ordersDao.queryOrdersByItemId(itemId);
         return ordersList;
     }

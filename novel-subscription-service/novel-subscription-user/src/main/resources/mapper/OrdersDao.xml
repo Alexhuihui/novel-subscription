@@ -3,7 +3,7 @@
 <mapper namespace="top.alexmmd.repository.OrdersDao">
 
     <resultMap type="top.alexmmd.domain.entity.Orders" id="OrdersMap">
-        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
         <result property="receiverMobile" column="receiver_mobile" jdbcType="VARCHAR"/>
@@ -40,7 +40,7 @@
         pay_method, is_delete, create_time, update_time
         from novel_subscription.orders
         <where>
-            <if test="id != null and id != ''">
+            <if test="id != null">
                 and id = #{id}
             </if>
             <if test="userId != null and userId != ''">

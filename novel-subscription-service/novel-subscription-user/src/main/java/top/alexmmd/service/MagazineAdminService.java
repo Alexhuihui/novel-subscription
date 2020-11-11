@@ -69,7 +69,7 @@ public interface MagazineAdminService {
      * @param id
      * @return
      */
-    RespEntity deleteMagazine(String id);
+    RespEntity deleteMagazine(Integer id);
 
     /**
      * 修改杂志
@@ -93,7 +93,7 @@ public interface MagazineAdminService {
      * @param id
      * @return
      */
-    RespEntity queryMagazine(String id);
+    RespEntity queryMagazine(Integer id);
 
     /**
      * 新增类别
@@ -148,7 +148,7 @@ public interface MagazineAdminService {
      * @param id
      * @return
      */
-    RespEntity deleteOrder(String id);
+    RespEntity deleteOrder(Integer id);
 
     /**
      * 修改订单
@@ -164,7 +164,7 @@ public interface MagazineAdminService {
      * @param id
      * @return
      */
-    RespEntity queryOrder(String id);
+    RespEntity queryOrder(Integer id);
 
     /**
      * 模糊查询所有订单主表信息

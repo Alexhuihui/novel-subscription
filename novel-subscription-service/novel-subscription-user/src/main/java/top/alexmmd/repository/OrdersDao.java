@@ -21,7 +21,7 @@ public interface OrdersDao {
      * @param id 主键
      * @return 实例对象
      */
-    Orders queryById(String id);
+    Orders queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -79,7 +79,7 @@ public interface OrdersDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String id);
+    int deleteById(Integer id);
 
     /**
      * 查询订单详情
@@ -87,7 +87,7 @@ public interface OrdersDao {
      * @param id
      * @return
      */
-    OrdersVo queryOrdersDetail(String id);
+    OrdersVo queryOrdersDetail(Integer id);
 
     /**
      * 查询订单商品表
@@ -95,7 +95,7 @@ public interface OrdersDao {
      * @param id
      * @return
      */
-    List<OrderItemsVo> queryOrderItemsVoByOrderId(String id);
+    List<OrderItemsVo> queryOrderItemsVoByOrderId(Integer id);
 
     /**
      * 查询所有购买了此商品的人
@@ -103,5 +103,5 @@ public interface OrdersDao {
      * @param itemId
      * @return
      */
-    List<Orders> queryOrdersByItemId(String itemId);
+    List<Orders> queryOrdersByItemId(Integer itemId);
 }

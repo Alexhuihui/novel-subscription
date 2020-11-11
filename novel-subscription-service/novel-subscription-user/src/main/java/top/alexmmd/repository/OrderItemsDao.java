@@ -19,7 +19,7 @@ public interface OrderItemsDao {
      * @param id 主键
      * @return 实例对象
      */
-    OrderItems queryById(String id);
+    OrderItems queryById(Integer id);
 
     /**
      * 查询指定行数据
@@ -77,7 +77,7 @@ public interface OrderItemsDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String id);
+    int deleteById(Integer id);
 
     /**
      * 根据订单 id 删除订单商品
@@ -85,5 +85,5 @@ public interface OrderItemsDao {
      * @param orderId
      * @return
      */
-    int deleteByOrdersId(String orderId);
+    int deleteByOrdersId(Integer orderId);
 }

@@ -19,7 +19,7 @@ public interface OrderItemsService {
      * @param id 主键
      * @return 实例对象
      */
-    OrderItems queryById(String id);
+    OrderItems queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -52,7 +52,7 @@ public interface OrderItemsService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(String id);
+    boolean deleteById(Integer id);
 
     /**
      * 批量插入
@@ -68,5 +68,5 @@ public interface OrderItemsService {
      * @param orderId 订单 id
      * @return
      */
-    int deleteByOrdersId(String orderId);
+    int deleteByOrdersId(Integer orderId);
 }

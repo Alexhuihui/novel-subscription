@@ -20,15 +20,15 @@ public class OrderItems implements Serializable {
     /**
      * 主键id
      */
-    private String id;
+    private Integer id;
     /**
      * 归属订单id
      */
-    private String orderId;
+    private Integer orderId;
     /**
      * 商品id
      */
-    private String itemId;
+    private Integer itemId;
     /**
      * 商品名称
      */

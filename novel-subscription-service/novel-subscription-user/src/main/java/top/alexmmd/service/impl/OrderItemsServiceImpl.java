@@ -26,7 +26,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      * @return 实例对象
      */
     @Override
-    public OrderItems queryById(String id) {
+    public OrderItems queryById(Integer id) {
         return this.orderItemsDao.queryById(id);
     }
 
@@ -73,7 +73,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Integer id) {
         return this.orderItemsDao.deleteById(id) > 0;
     }
 
@@ -95,7 +95,7 @@ public class OrderItemsServiceImpl implements OrderItemsService {
      * @return
      */
     @Override
-    public int deleteByOrdersId(String orderId) {
+    public int deleteByOrdersId(Integer orderId) {
         return orderItemsDao.deleteByOrdersId(orderId);
     }
 }

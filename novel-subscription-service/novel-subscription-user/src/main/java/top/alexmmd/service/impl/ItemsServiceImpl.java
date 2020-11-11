@@ -27,7 +27,7 @@ public class ItemsServiceImpl implements ItemsService {
      * @return 实例对象
      */
     @Override
-    public Items queryById(String id) {
+    public Items queryById(Integer id) {
         return this.itemsDao.queryById(id);
     }
 
@@ -74,7 +74,7 @@ public class ItemsServiceImpl implements ItemsService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Integer id) {
         return this.itemsDao.deleteById(id) > 0;
     }
 
@@ -85,7 +85,7 @@ public class ItemsServiceImpl implements ItemsService {
      * @return
      */
     @Override
-    public ItemsVo queryDetailById(String id) {
+    public ItemsVo queryDetailById(Integer id) {
         return itemsDao.queryDetailById(id);
     }
 

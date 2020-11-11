@@ -99,7 +99,7 @@ public class MagazineAdminController {
      * @return
      */
     @DeleteMapping("/deleteMagazine/{id}")
-    public RespEntity deleteMagazine(@PathVariable String id) {
+    public RespEntity deleteMagazine(@PathVariable Integer id) {
         return magazineAdminService.deleteMagazine(id);
     }
 
@@ -121,7 +121,7 @@ public class MagazineAdminController {
      * @return
      */
     @GetMapping("/queryMagazine/{id}")
-    public RespEntity queryMagazine(@PathVariable String id) {
+    public RespEntity queryMagazine(@PathVariable Integer id) {
         return magazineAdminService.queryMagazine(id);
     }
 
@@ -208,7 +208,7 @@ public class MagazineAdminController {
      * @return
      */
     @DeleteMapping("/deleteOrder/{id}")
-    public RespEntity deleteOrder(@PathVariable String id) {
+    public RespEntity deleteOrder(@PathVariable Integer id) {
         return magazineAdminService.deleteOrder(id);
     }
 
@@ -230,7 +230,7 @@ public class MagazineAdminController {
      * @return
      */
     @GetMapping("/queryOrder/{id}")
-    public RespEntity queryOrder(@PathVariable String id) {
+    public RespEntity queryOrder(@PathVariable Integer id) {
         return magazineAdminService.queryOrder(id);
     }
 

@@ -19,7 +19,7 @@ public interface ItemsService {
      * @param id 主键
      * @return 实例对象
      */
-    Items queryById(String id);
+    Items queryById(Integer id);
 
     /**
      * 查询多条数据
@@ -52,7 +52,7 @@ public interface ItemsService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(String id);
+    boolean deleteById(Integer id);
 
     /**
      * 根据 id 查询详情
@@ -60,7 +60,7 @@ public interface ItemsService {
      * @param id
      * @return
      */
-    ItemsVo queryDetailById(String id);
+    ItemsVo queryDetailById(Integer id);
 
     /**
      * 模糊查询所有商品

@@ -20,4 +20,14 @@ public class MailClientHystrix implements MailClient {
         System.out.println("test1");
         return new CommonReply("500", "服务降级策略生效");
     }
+
+    /**
+     * 发送 Html 邮件
+     *
+     * @param mailInfo 邮件基本内容
+     */
+    @Override
+    public CommonReply sendHtmlMail(MailInfo mailInfo) {
+        return null;
+    }
 }

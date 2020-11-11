@@ -3,7 +3,7 @@
 <mapper namespace="top.alexmmd.repository.ItemsDao">
 
     <resultMap type="top.alexmmd.domain.entity.Items" id="ItemsMap">
-        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="itemName" column="item_name" jdbcType="VARCHAR"/>
         <result property="catId" column="cat_id" jdbcType="INTEGER"/>
         <result property="rootCatId" column="root_cat_id" jdbcType="INTEGER"/>
@@ -36,7 +36,7 @@
         id, item_name, cat_id, root_cat_id, sell_counts, on_off_status, content, create_time, update_time
         from novel_subscription.items
         <where>
-            <if test="id != null and id != ''">
+            <if test="id != null">
                 and id = #{id}
             </if>
             <if test="itemName != null and itemName != ''">
@@ -107,7 +107,7 @@
             LEFT JOIN novel_subscription.`category` AS b ON b.`id` = a.`cat_id`
             LEFT JOIN novel_subscription.`category` AS c ON c.`id` = a.`root_cat_id`
         <where>
-            <if test="id != null and id != ''">
+            <if test="id != null">
                 and a.`id` = #{id}
             </if>
             <if test="itemName != null and itemName != ''">

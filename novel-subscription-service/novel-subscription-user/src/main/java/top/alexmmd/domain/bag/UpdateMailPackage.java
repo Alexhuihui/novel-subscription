@@ -22,5 +22,5 @@ public class UpdateMailPackage {
     /**
      * 商品 id
      */
-    private String itemId;
+    private Integer itemId;
 }

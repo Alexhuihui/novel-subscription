@@ -21,7 +21,7 @@ public class Items implements Serializable {
     /**
      * 商品主键id
      */
-    private String id;
+    private Integer id;
     /**
      * 商品名称 商品名称
      */

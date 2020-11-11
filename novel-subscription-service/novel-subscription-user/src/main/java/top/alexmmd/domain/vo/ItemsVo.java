@@ -20,7 +20,7 @@ public class ItemsVo {
     /**
      * 商品主键id
      */
-    private String id;
+    private Integer id;
     /**
      * 商品名称 商品名称
      */

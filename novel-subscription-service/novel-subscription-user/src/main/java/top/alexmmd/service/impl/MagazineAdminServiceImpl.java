@@ -153,7 +153,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
     }
 
     @Override
-    public RespEntity deleteMagazine(String id) {
+    public RespEntity deleteMagazine(Integer id) {
         return itemsService.deleteById(id) ? new RespEntity(101, "删除成功") : new RespEntity(500, "删除失败");
     }
 
@@ -171,7 +171,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
     }
 
     @Override
-    public RespEntity queryMagazine(String id) {
+    public RespEntity queryMagazine(Integer id) {
         ItemsVo itemsVo = itemsService.queryDetailById(id);
         return new RespEntity(100, "成功查询商品详情", itemsVo);
     }
@@ -272,7 +272,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public RespEntity deleteOrder(String id) {
+    public RespEntity deleteOrder(Integer id) {
         orderItemsService.deleteByOrdersId(id);
         ordersService.deleteById(id);
         return new RespEntity(100, "订单删除成功");
@@ -318,7 +318,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
      * @return
      */
     @Override
-    public RespEntity queryOrder(String id) {
+    public RespEntity queryOrder(Integer id) {
         OrdersVo ordersVo = ordersService.queryOrdersDetail(id);
         return new RespEntity(100, "成功查询订单详情", ordersVo);
     }
@@ -343,7 +343,7 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
      */
     @Override
     public RespEntity sendUpdateMail(UpdateMailPackage updateMailPackage) {
-        String itemId = updateMailPackage.getItemId();
+        Integer itemId = updateMailPackage.getItemId();
         String updateContent = updateMailPackage.getUpdateContent();
         String itemName = itemsService.queryById(itemId).getItemName();
 

@@ -21,7 +21,7 @@ public class Orders implements Serializable {
     /**
      * 订单主键;同时也是订单编号
      */
-    private String id;
+    private Integer id;
     /**
      * 用户id
      */
