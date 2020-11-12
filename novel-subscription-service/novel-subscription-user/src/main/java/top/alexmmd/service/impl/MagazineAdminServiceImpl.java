@@ -9,10 +9,7 @@ import top.alexmmd.domain.MailEnum;
 import top.alexmmd.domain.MailInfo;
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
-import top.alexmmd.domain.bag.CustomerPackage;
-import top.alexmmd.domain.bag.ItemsPackage;
-import top.alexmmd.domain.bag.OrdersPackage;
-import top.alexmmd.domain.bag.UpdateMailPackage;
+import top.alexmmd.domain.bag.*;
 import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
 import top.alexmmd.domain.entity.OrderItems;
@@ -258,6 +255,15 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
         ordersService.insert(orders);
         for (OrderItems orderItem : entities) {
             orderItem.setOrderId(orders.getId());
+            // 增加商品售卖数量
+            Integer itemId = orderItem.getItemId();
+            Integer count = orderItem.getBuyCounts();
+            synchronized (orderItem) {
+                Items items = itemsService.queryById(itemId);
+                Integer sellCounts = items.getSellCounts();
+                items.setSellCounts(count + sellCounts);
+                itemsService.update(items);
+            }
         }
         orderItemsService.insertBatch(entities);
         return new RespEntity(101, "成功新增订单");
@@ -302,9 +308,31 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
                 .id(ordersPackage.getId())
                 .build();
         ordersService.update(orders);
+        // 删除订单
+        List<OrderItems> orderItemsList = orderItemsService.queryByOrderId(orders.getId());
+        for (OrderItems orderItems : orderItemsList) {
+            // 减少商品售卖数量
+            Integer itemId = orderItems.getItemId();
+            Integer count = orderItems.getBuyCounts();
+            synchronized (orderItems) {
+                Items items = itemsService.queryById(itemId);
+                Integer sellCounts = items.getSellCounts();
+                items.setSellCounts(sellCounts - count);
+                itemsService.update(items);
+            }
+        }
         orderItemsService.deleteByOrdersId(orders.getId());
         for (OrderItems orderItem : entities) {
             orderItem.setOrderId(orders.getId());
+            // 增加商品售卖数量
+            Integer itemId = orderItem.getItemId();
+            Integer count = orderItem.getBuyCounts();
+            synchronized (orderItem) {
+                Items items = itemsService.queryById(itemId);
+                Integer sellCounts = items.getSellCounts();
+                items.setSellCounts(count + sellCounts);
+                itemsService.update(items);
+            }
         }
         orderItemsService.insertBatch(entities);
         return new RespEntity(101, "成功修改订单");
@@ -367,6 +395,26 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
             mailUtil.sendHtmlMail(mailInfo);
         }
         return new RespEntity(101, "成功发送更新邮件");
+    }
+
+    /**
+     * 发送通知邮件
+     *
+     * @param mailPackage
+     * @return
+     */
+    @Override
+    public RespEntity notifyAllMail(MailPackage mailPackage) {
+        List<NovelUser> novelUserList = novelUserDao.queryAll(NovelUser.builder().build());
+        for (NovelUser novelUser : novelUserList) {
+            log.info("客户详细信息 -> {}", novelUser);
+            MailInfo mailInfo = new MailInfo();
+            mailInfo.setContent(String.format(MailEnum.NOTIFY_ALL.getContent(), novelUser.getUsername(), mailPackage.getContent()));
+            mailInfo.setTitle("系统通知");
+            mailInfo.setToAddr(novelUser.getEmail());
+            mailUtil.sendHtmlMail(mailInfo);
+        }
+        return new RespEntity(101, "成功发送通知邮件");
     }
 
     /**

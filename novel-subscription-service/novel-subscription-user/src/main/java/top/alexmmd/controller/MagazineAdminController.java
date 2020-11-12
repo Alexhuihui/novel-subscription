@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import top.alexmmd.annotation.AutoIdempotent;
 import top.alexmmd.domain.NovelUser;
-import top.alexmmd.domain.bag.CustomerPackage;
+import top.alexmmd.domain.bag.*;
 import top.alexmmd.domain.RespEntity;
-import top.alexmmd.domain.bag.ItemsPackage;
-import top.alexmmd.domain.bag.OrdersPackage;
-import top.alexmmd.domain.bag.UpdateMailPackage;
 import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
 import top.alexmmd.domain.entity.Orders;
@@ -253,6 +250,17 @@ public class MagazineAdminController {
     @PostMapping("/sendUpdateMail")
     public RespEntity sendUpdateMail(@RequestBody UpdateMailPackage updateMailPackage) {
         return magazineAdminService.sendUpdateMail(updateMailPackage);
+    }
+
+    /**
+     * 发送通知邮件
+     *
+     * @param mailPackage
+     * @return
+     */
+    @PostMapping("/notifyAllMail")
+    public RespEntity notifyAllMail(@RequestBody MailPackage mailPackage) {
+        return magazineAdminService.notifyAllMail(mailPackage);
     }
 
 }

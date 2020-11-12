@@ -54,6 +54,14 @@
         </where>
     </select>
 
+    <!--根据订单 id 查询订单商品-->
+    <select id="queryByOrderId" resultMap="OrderItemsMap">
+        select
+        id, order_id, item_id, item_name, price, buy_counts
+        from novel_subscription.order_items
+        where order_id = #{id}
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into novel_subscription.order_items(order_id, item_id, item_name, price, buy_counts)

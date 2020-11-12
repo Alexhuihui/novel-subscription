@@ -69,4 +69,12 @@ public interface OrderItemsService {
      * @return
      */
     int deleteByOrdersId(Integer orderId);
+
+    /**
+     * 根据订单 id 查询订单商品
+     *
+     * @param id
+     * @return
+     */
+    List<OrderItems> queryByOrderId(Integer id);
 }

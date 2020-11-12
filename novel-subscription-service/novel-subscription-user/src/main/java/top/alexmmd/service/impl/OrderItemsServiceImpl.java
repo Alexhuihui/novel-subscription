@@ -98,4 +98,15 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     public int deleteByOrdersId(Integer orderId) {
         return orderItemsDao.deleteByOrdersId(orderId);
     }
+
+    /**
+     * 根据订单 id 查询订单商品
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public List<OrderItems> queryByOrderId(Integer id) {
+        return orderItemsDao.queryByOrderId(id);
+    }
 }

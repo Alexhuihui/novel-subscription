@@ -2,10 +2,7 @@ package top.alexmmd.service;
 
 import top.alexmmd.domain.NovelUser;
 import top.alexmmd.domain.RespEntity;
-import top.alexmmd.domain.bag.CustomerPackage;
-import top.alexmmd.domain.bag.ItemsPackage;
-import top.alexmmd.domain.bag.OrdersPackage;
-import top.alexmmd.domain.bag.UpdateMailPackage;
+import top.alexmmd.domain.bag.*;
 import top.alexmmd.domain.entity.Category;
 import top.alexmmd.domain.entity.Items;
 import top.alexmmd.domain.entity.Orders;
@@ -181,4 +178,12 @@ public interface MagazineAdminService {
      * @return
      */
     RespEntity sendUpdateMail(UpdateMailPackage updateMailPackage);
+
+    /**
+     * 发送通知邮件
+     *
+     * @param mailPackage
+     * @return
+     */
+    RespEntity notifyAllMail(MailPackage mailPackage);
 }
