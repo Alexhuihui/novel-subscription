@@ -52,6 +52,7 @@
                 and update_time = #{updateTime}
             </if>
         </where>
+        order by update_time desc
     </select>
 
     <select id="findByUsername" resultType="top.alexmmd.domain.NovelUser">
