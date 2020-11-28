@@ -122,8 +122,8 @@
         FROM
             novel_subscription.`order_items` AS a
             LEFT JOIN novel_subscription.`items` AS b ON a.`item_id` = b.`id`
-            LEFT JOIN novel_subscription.`category` AS b ON b.`id` = a.`cat_id`
-            LEFT JOIN novel_subscription.`category` AS c ON c.`id` = a.`root_cat_id`
+            LEFT JOIN novel_subscription.`category` AS c ON c.`id` = b.`cat_id`
+            LEFT JOIN novel_subscription.`category` AS d ON d.`id` = b.`root_cat_id`
         WHERE
             a.`order_id` = #{id}
     </select>
