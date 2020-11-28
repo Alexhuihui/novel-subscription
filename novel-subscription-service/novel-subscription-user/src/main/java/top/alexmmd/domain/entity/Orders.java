@@ -26,6 +26,8 @@ public class Orders implements Serializable {
      * 用户id
      */
     private Integer userId;
+
+    private String userName;
     /**
      * 收货人快照
      */

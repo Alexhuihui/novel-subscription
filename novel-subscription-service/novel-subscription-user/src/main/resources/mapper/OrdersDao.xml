@@ -17,6 +17,22 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <resultMap type="top.alexmmd.domain.entity.Orders" id="OrdersVoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="username" jdbcType="VARCHAR"/>
+        <result property="receiverName" column="receiver_name" jdbcType="VARCHAR"/>
+        <result property="receiverMobile" column="receiver_mobile" jdbcType="VARCHAR"/>
+        <result property="receiverAddress" column="receiver_address" jdbcType="VARCHAR"/>
+        <result property="totalAmount" column="total_amount" jdbcType="INTEGER"/>
+        <result property="realPayAmount" column="real_pay_amount" jdbcType="INTEGER"/>
+        <result property="postAmount" column="post_amount" jdbcType="INTEGER"/>
+        <result property="payMethod" column="pay_method" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
     <!--查询单个-->
     <select id="queryById" resultMap="OrdersMap">
         select
@@ -34,11 +50,12 @@
     </select>
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="OrdersMap">
+    <select id="queryAll" resultMap="OrdersVoMap">
         select
         id, user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount,
-        pay_method, is_delete, create_time, update_time
+        pay_method, is_delete, create_time, update_time, a.username
         from novel_subscription.orders
+        left join novel_subscription.novel_user as a
         <where>
             <if test="id != null">
                 and id = #{id}
