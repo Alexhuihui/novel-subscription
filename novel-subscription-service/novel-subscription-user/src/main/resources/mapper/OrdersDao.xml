@@ -52,49 +52,49 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="OrdersVoMap">
         select
-        id, user_id, receiver_name, receiver_mobile, receiver_address, total_amount, real_pay_amount, post_amount,
-        pay_method, is_delete, create_time, update_time, a.username
-        from novel_subscription.orders
-        left join novel_subscription.novel_user as a
+        b.id, b.user_id, b.receiver_name, b.receiver_mobile, b.receiver_address, b.total_amount, b.real_pay_amount, b.post_amount,
+        b.pay_method, b.is_delete, b.create_time, b.update_time, a.username
+        from novel_subscription.orders as b
+        left join novel_subscription.novel_user as a on b.user_id = a.id
         <where>
             <if test="id != null">
-                and id = #{id}
+                and b.id = #{id}
             </if>
             <if test="userId != null and userId != ''">
-                and user_id = #{userId}
+                and b.user_id = #{userId}
             </if>
             <if test="receiverName != null and receiverName != ''">
-                and receiver_name = #{receiverName}
+                and b.receiver_name = #{receiverName}
             </if>
             <if test="receiverMobile != null and receiverMobile != ''">
-                and receiver_mobile = #{receiverMobile}
+                and b.receiver_mobile = #{receiverMobile}
             </if>
             <if test="receiverAddress != null and receiverAddress != ''">
-                and receiver_address = #{receiverAddress}
+                and b.receiver_address = #{receiverAddress}
             </if>
             <if test="totalAmount != null">
-                and total_amount = #{totalAmount}
+                and b.total_amount = #{totalAmount}
             </if>
             <if test="realPayAmount != null">
-                and real_pay_amount = #{realPayAmount}
+                and b.real_pay_amount = #{realPayAmount}
             </if>
             <if test="postAmount != null">
-                and post_amount = #{postAmount}
+                and b.post_amount = #{postAmount}
             </if>
             <if test="payMethod != null">
-                and pay_method = #{payMethod}
+                and b.pay_method = #{payMethod}
             </if>
             <if test="isDelete != null">
-                and is_delete = #{isDelete}
+                and b.is_delete = #{isDelete}
             </if>
             <if test="createTime != null">
-                and create_time = #{createTime}
+                and b.create_time = #{createTime}
             </if>
             <if test="updateTime != null">
-                and update_time = #{updateTime}
+                and b.update_time = #{updateTime}
             </if>
         </where>
-        order by create_time desc
+        order by b.create_time desc
     </select>
 
     <!--查询订单详情-->
