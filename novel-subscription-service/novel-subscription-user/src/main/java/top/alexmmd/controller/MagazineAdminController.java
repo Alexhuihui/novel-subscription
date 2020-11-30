@@ -73,7 +73,7 @@ public class MagazineAdminController {
      * @param novelUser
      * @return
      */
-    @GetMapping("/fuzzySearchCustomer")
+    @PostMapping("/fuzzySearchCustomer")
     public RespEntity fuzzySearchCustomer(@RequestBody NovelUser novelUser) {
         return magazineAdminService.fuzzySearchCustomer(novelUser);
     }
@@ -128,7 +128,7 @@ public class MagazineAdminController {
      * @param items
      * @return
      */
-    @GetMapping("/fuzzySearchMagazine")
+    @PostMapping("/fuzzySearchMagazine")
     public RespEntity fuzzySearchMagazine(@RequestBody Items items) {
         return magazineAdminService.fuzzySearchMagazine(items);
     }
@@ -182,7 +182,7 @@ public class MagazineAdminController {
      *
      * @return
      */
-    @GetMapping("/queryAllCategory")
+    @PostMapping("/queryAllCategory")
     public RespEntity queryAllCategory(@RequestBody Category category) {
         return magazineAdminService.queryAllCategory(category);
     }
@@ -236,7 +236,7 @@ public class MagazineAdminController {
      *
      * @return
      */
-    @GetMapping("/queryAllOrder")
+    @PostMapping("/queryAllOrder")
     public RespEntity queryAllOrder(@RequestBody Orders orders) {
         return magazineAdminService.queryAllOrder(orders);
     }
