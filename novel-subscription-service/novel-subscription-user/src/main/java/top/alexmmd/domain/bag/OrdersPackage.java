@@ -55,5 +55,5 @@ public class OrdersPackage {
      */
     private Integer payMethod;
 
-    private List<OrderItems> orderItemsList;
+    private List<Integer> itemIdList;
 }

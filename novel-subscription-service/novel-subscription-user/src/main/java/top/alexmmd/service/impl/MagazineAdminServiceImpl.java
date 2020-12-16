@@ -21,10 +21,7 @@ import top.alexmmd.service.*;
 import top.alexmmd.util.MailUtil;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -238,33 +235,51 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public RespEntity addOrder(OrdersPackage ordersPackage) {
-        List<OrderItems> entities = ordersPackage.getOrderItemsList();
+        List<Integer> itemIdList = ordersPackage.getItemIdList();
+        List<OrderItems> entities = new ArrayList<>();
         Orders orders = Orders.builder()
                 .createTime(new Date())
                 .updateTime(new Date())
                 .isDelete(0)
                 .payMethod(ordersPackage.getPayMethod())
                 .postAmount(ordersPackage.getPostAmount())
-                .realPayAmount(ordersPackage.getRealPayAmount())
+                .realPayAmount(itemIdList.size() * 19)
                 .receiverAddress(ordersPackage.getReceiverAddress())
                 .receiverMobile(ordersPackage.getReceiverMobile())
                 .receiverName(ordersPackage.getReceiverName())
-                .totalAmount(ordersPackage.getTotalAmount())
+                .totalAmount(itemIdList.size() * 19)
                 .userId(ordersPackage.getUserId())
                 .build();
         ordersService.insert(orders);
-        for (OrderItems orderItem : entities) {
-            orderItem.setOrderId(orders.getId());
-            // 增加商品售卖数量
-            Integer itemId = orderItem.getItemId();
-            Integer count = orderItem.getBuyCounts();
-            synchronized (orderItem) {
-                Items items = itemsService.queryById(itemId);
+        for (Integer itemId : itemIdList) {
+            Items items = itemsService.queryById(itemId);
+
+            synchronized (itemId) {
                 Integer sellCounts = items.getSellCounts();
-                items.setSellCounts(count + sellCounts);
+                items.setSellCounts(1 + sellCounts);
                 itemsService.update(items);
             }
+
+            entities.add(OrderItems.builder()
+                    .price(19)
+                    .itemName(items.getItemName())
+                    .orderId(orders.getId())
+                    .buyCounts(1)
+                    .itemId(itemId)
+                    .build());
         }
+//        for (OrderItems orderItem : entities) {
+//            orderItem.setOrderId(orders.getId());
+//            // 增加商品售卖数量
+//            Integer itemId = orderItem.getItemId();
+//            Integer count = orderItem.getBuyCounts();
+//            synchronized (orderItem) {
+//                Items items = itemsService.queryById(itemId);
+//                Integer sellCounts = items.getSellCounts();
+//                items.setSellCounts(count + sellCounts);
+//                itemsService.update(items);
+//            }
+//        }
         orderItemsService.insertBatch(entities);
         return new RespEntity(101, "成功新增订单");
     }
@@ -292,7 +307,8 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public RespEntity updateOrder(OrdersPackage ordersPackage) {
-        List<OrderItems> entities = ordersPackage.getOrderItemsList();
+        List<Integer> itemIdList = ordersPackage.getItemIdList();
+        List<OrderItems> entities = new ArrayList<>();
         Orders orders = Orders.builder()
                 .createTime(new Date())
                 .updateTime(new Date())
@@ -308,6 +324,17 @@ public class MagazineAdminServiceImpl implements MagazineAdminService {
                 .id(ordersPackage.getId())
                 .build();
         ordersService.update(orders);
+        for (Integer itemId : itemIdList) {
+            Items items = itemsService.queryById(itemId);
+
+            entities.add(OrderItems.builder()
+                    .price(19)
+                    .itemName(items.getItemName())
+                    .orderId(orders.getId())
+                    .buyCounts(1)
+                    .itemId(itemId)
+                    .build());
+        }
         // 删除订单
         List<OrderItems> orderItemsList = orderItemsService.queryByOrderId(orders.getId());
         for (OrderItems orderItems : orderItemsList) {
