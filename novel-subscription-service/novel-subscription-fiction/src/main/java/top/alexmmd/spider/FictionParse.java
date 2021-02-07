@@ -134,7 +134,7 @@ public class FictionParse {
             String chapterName = element.select("a").text();
             String attr = element.select("a").attr("href");
             String chapterUrl = BASE_URL + attr;
-            String pattern = "\\d{3,}";
+            String pattern = "\\d{1,}";
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(attr);
             List<Long> groups = new ArrayList<>();

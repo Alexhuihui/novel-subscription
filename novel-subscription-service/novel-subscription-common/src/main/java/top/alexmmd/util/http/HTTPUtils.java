@@ -1,5 +1,6 @@
 package top.alexmmd.util.http;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
@@ -28,7 +29,9 @@ public class HTTPUtils {
         HttpGet httpGet = new HttpGet(url);
 
         CloseableHttpResponse response = httpClient.execute(httpGet);
-
+        System.out.println("response = " + response);
+        System.out.println("response.getStatusLine().getStatusCode() = " + response.getStatusLine().getStatusCode());
+        System.out.println("response.getEntity() = " + response.getEntity());
         if (response.getStatusLine().getStatusCode() == 200) {
             return EntityUtils.toString(response.getEntity(), "UTF-8");
         }
