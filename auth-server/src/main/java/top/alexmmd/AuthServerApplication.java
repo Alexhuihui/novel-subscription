@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * @author 汪永晖
+ */
 @SpringBootApplication
 @MapperScan("top.alexmmd.dao")
 @Configuration
