@@ -27,7 +27,11 @@ public class HTTPUtils {
     public static String doGet(String url) throws Exception {
 
         HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36");
+        httpGet.setHeader("Referer", url);
+        httpGet.setHeader("Host", "www.sobiquge.com");
 
+        System.out.println("httpGet = " + httpGet);
         CloseableHttpResponse response = httpClient.execute(httpGet);
         System.out.println("response = " + response);
         System.out.println("response.getStatusLine().getStatusCode() = " + response.getStatusLine().getStatusCode());

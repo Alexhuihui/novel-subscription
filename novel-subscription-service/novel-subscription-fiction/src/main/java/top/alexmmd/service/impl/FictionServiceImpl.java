@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class FictionServiceImpl implements FictionService {
 
-    private final String URL_ID = "https://www.biquge.com.cn/book/";
+    private final String URL_ID = "https://www.sobiquge.com/book/";
 
     private final String URL_SEARCH = "https://www.biquge.com.cn/search.php";
 
@@ -58,18 +58,19 @@ public class FictionServiceImpl implements FictionService {
 
         //拼装URL，加上ID
         String requestUrl = URL_ID + id.toString() + "/";
-
+        log.info(requestUrl);
         //调用HTTPUtils去获取HTML页面
         String html = null;
         try {
             html = HTTPUtils.doGet(requestUrl);
+            log.info(html);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         //把html交给parse去解析
         Fiction fiction = FictionParse.parseFiction(html);
-
+        log.info(fiction.toString());
         fiction.setId(id);
 
         return fiction;
